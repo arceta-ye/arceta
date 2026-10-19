@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة إدارة ارسيتا — كاملة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--p:#1b4998;--s:#0e2a5e;--l:#f4f7fc;--a:#ffb703;--d:#dc3545;--ok:#28a745;--w:#ffc107}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+body{background:linear-gradient(135deg,#f4f7fc,#e8eef9);min-height:100vh;padding:12px 12px 90px;color:#222;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto}
+.hd{background:var(--p);color:#fff;padding:16px;border-radius:12px;text-align:center;margin-bottom:12px;box-shadow:0 6px 20px rgba(27,73,152,.3)}
+.hd h1{font-size:1.2rem;font-weight:900}.hd p{font-size:.78rem;opacity:.9}
+.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 4px 15px rgba(0,0,0,.07);margin-bottom:12px}
+.ct{font-size:.98rem;font-weight:800;color:var(--s);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--a);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ct .sp{flex:1}
+label{display:block;font-weight:800;font-size:.8rem;color:var(--s);margin:8px 0 4px}
+input,textarea,select{width:100%;padding:9px;border:2px solid #e2e8f0;border-radius:8px;font-family:'Cairo';font-size:.86rem;background:#fff;color:#222}
+textarea{min-height:60px;resize:vertical;line-height:1.55}
+input:focus,textarea:focus{outline:none;border-color:var(--p)}
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:9px;font-weight:800;font-size:.88rem;cursor:pointer;border:2px solid;font-family:'Cairo';margin-top:10px;width:100%;text-decoration:none;color:#fff}
+.btn-p{background:var(--p);border-color:var(--p)}
+.btn-ok{background:var(--ok);border-color:var(--ok)}
+.btn-o{background:#fff;color:var(--p);border-color:var(--p)}
+.btn-d{background:#fff;color:var(--d);border-color:var(--d)}
+.btn-sm{padding:5px 9px;font-size:.72rem;margin-top:0;width:auto;border-radius:6px;flex-shrink:0}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.tab{padding:7px 11px;background:#fff;border:2px solid #e2e8f0;border-radius:7px;font-family:'Cairo';font-weight:700;font-size:.72rem;cursor:pointer;color:var(--s)}
+.tab.active{background:var(--p);color:#fff;border-color:var(--p)}
+.panel{display:none}.panel.active{display:block}
+.info{background:#e7f3ff;border:2px solid var(--p);padding:10px;border-radius:8px;margin-bottom:10px;font-size:.8rem;line-height:1.7;color:var(--s)}
+.info a{color:var(--p);font-weight:900}.info code{background:var(--s);color:var(--a);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:.78rem;word-break:break-all}
+.warn{background:#fff8e1;border:2px solid var(--w);padding:10px;border-radius:8px;margin-bottom:10px;font-size:.78rem;line-height:1.7;color:#7a5d00}
+.prev{width:100%;height:110px;object-fit:cover;border-radius:6px;margin-top:5px;border:1px solid #ddd;background:#f8f9fa}
+.item{border:1px solid #e2e8f0;border-radius:8px;padding:9px;margin-bottom:7px;background:var(--l)}
+.item-h{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.item-t{font-weight:800;font-size:.8rem;color:var(--s);flex:1;line-height:1.4;word-break:break-word}
+.item-actions{display:flex;gap:4px;flex-shrink:0}
+.bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px 12px;box-shadow:0 -4px 15px rgba(0,0,0,.1);z-index:100;display:flex;gap:8px;max-width:860px;margin:0 auto}
+.bar .btn{margin:0;flex:1}
+.status{padding:8px;border-radius:7px;margin-top:8px;font-weight:700;font-size:.8rem;text-align:center;display:none}
+.status.show{display:block}
+.status.ok{background:#d4edda;color:#155724}.status.err{background:#f8d7da;color:#721c24}.status.load{background:#fff3cd;color:#856404}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;justify-content:center;align-items:center;padding:12px;overflow-y:auto}
+.modal-bg.show{display:flex}
+.modal-b{background:#fff;border-radius:12px;padding:16px;max-width:520px;width:100%;max-height:92vh;overflow-y:auto}
+.modal-b h3{color:var(--s);margin-bottom:10px;font-size:1rem}
+.hint{font-size:.72rem;color:#888;margin-top:2px}
+.actions-row{display:flex;gap:6px;margin-top:8px}
+.actions-row .btn{margin-top:0}
+.icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:5px}
+.icon-opt{padding:6px;text-align:center;border:2px solid #e2e8f0;border-radius:6px;cursor:pointer;font-size:1.1rem;color:var(--s)}
+.icon-opt.sel{border-color:var(--p);background:#e7f3ff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <h1>🔒 لوحة إدارة ارسيتا — تحكم كامل</h1>
+    <p>تعديل + إضافة + حذف — بدون تغيير هيكل الموقع</p>
+  </div>
+
+  <div class="card" id="setup">
+    <div class="ct"><i class="fas fa-key"></i> الإعدادات والتوكن</div>
+    <div class="info">
+      <b>1) التوكن:</b> افتح <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> ← Note: <code>ARCETA</code> ← No expiration ← Scopes: <code>repo</code> ← Generate ← انسخه<br>
+      <b>2) المستودع:</b> الافتراضي <code>arceta-ye/-arceta</code>
+    </div>
+    <label>GitHub Token:</label>
+    <input type="password" id="i-token" dir="ltr" placeholder="ghp_...">
+    <label>المستودع:</label>
+    <input type="text" id="i-repo" dir="ltr" value="arceta-ye/-arceta">
+    <label>الفرع:</label>
+    <input type="text" id="i-branch" dir="ltr" value="main">
+    <label>الملف:</label>
+    <input type="text" id="i-file" dir="ltr" value="index.html">
+    <button class="btn btn-p" onclick="saveSettings()"><i class="fas fa-save"></i> حفظ الإعدادات وتحميل اللوحة</button>
+    <div class="status" id="st-setup"></div>
+  </div>
+
+  <div class="tabs" id="tabsNav" style="display:none">
+    <button class="tab active" data-t="site">🏠 الموقع</button>
+    <button class="tab" data-t="hero">🖼️ الترحيب</button>
+    <button class="tab" data-t="contact">📱 التواصل</button>
+    <button class="tab" data-t="portals">🃏 الأقسام</button>
+    <button class="tab" data-t="cats">📂 الفئات</button>
+    <button class="tab" data-t="prod">📦 المنتجات</button>
+    <button class="tab" data-t="proj">🏗️ المشاريع</button>
+    <button class="tab" data-t="feat">⭐ المميزات</button>
+    <button class="tab" data-t="about">📸 نبذة</button>
+    <button class="tab" data-t="tools">🛠️ أدوات</button>
+  </div>
+
+  <div class="panel active" id="p-site">
+    <div class="card">
+      <div class="ct"><i class="fas fa-heading"></i> اسم الموقع والوصف</div>
+      <label>اسم الموقع (h1):</label>
+      <input type="text" id="f-brand">
+      <label>الوصف تحت الاسم:</label>
+      <input type="text" id="f-tagline">
+    </div>
+  </div>
+
+  <div class="panel" id="p-hero">
+    <div class="card">
+      <div class="ct"><i class="fas fa-image"></i> صورة الترحيب</div>
+      <label>رابط صورة الترحيب:</label>
+      <input type="url" id="f-hero-img" dir="ltr" oninput="document.getElementById('pv-hero').src=this.value">
+      <img id="pv-hero" class="prev">
+      <label>العنوان الرئيسي (h2):</label>
+      <input type="text" id="f-hero-title">
+      <label>العنوان الفرعي (h3):</label>
+      <input type="text" id="f-hero-sub">
+      <label>النص التوضيحي (p):</label>
+      <input type="text" id="f-hero-desc">
+    </div>
+  </div>
+
+  <div class="panel" id="p-contact">
+    <div class="card">
+      <div class="ct"><i class="fas fa-share-alt"></i> أرقام وروابط التواصل</div>
+      <div class="warn">⚠️ رقم الواتساب يتغير تلقائياً في <b>كل مكان</b> بالموقع (8+ مواضع)</div>
+      <label>رقم الواتساب (دولي بدون +):</label>
+      <input type="text" id="f-wa" dir="ltr" placeholder="967784445562">
+      <label>رقم الاتصال (محلي):</label>
+      <input type="text" id="f-phone" dir="ltr" placeholder="784445562">
+      <label>رابط الفيسبوك:</label>
+      <input type="url" id="f-fb" dir="ltr">
+      <label>رابط الإنستغرام:</label>
+      <input type="url" id="f-ig" dir="ltr">
+      <label>رابط خرائط جوجل:</label>
+      <input type="url" id="f-map" dir="ltr">
+    </div>
+  </div>
+
+  <div class="panel" id="p-portals">
+    <div class="card">
+      <div class="ct"><i class="fas fa-cube"></i> الكروت الأربعة الرئيسية</div>
+      <div class="warn">ℹ️ العدد ثابت (4) لأنها مرتبطة بمودالات محددة — التعديل متاح، الإضافة/الحذف غير متاحين هنا</div>
+      <div id="portalsList"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-cats">
+    <div class="card">
+      <div class="ct"><i class="fas fa-folder"></i> الفئات الخمس الفرعية</div>
+      <div class="warn">ℹ️ العدد ثابت (5) لأن كل فئة مرتبطة بمودال منتجات خاص — التعديل متاح فقط</div>
+      <div id="catsList"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-prod">
+    <div class="card">
+      <div class="ct">
+        <i class="fas fa-boxes"></i> إدارة المنتجات
+        <span class="sp"></span>
+        <button class="btn btn-ok btn-sm" onclick="addProduct()"><i class="fas fa-plus"></i> إضافة منتج</button>
+      </div>
+      <label>القسم:</label>
+      <select id="prodSection"></select>
+      <div id="prodList" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-proj">
+    <div class="card">
+      <div class="ct">
+        <i class="fas fa-hard-hat"></i> المشاريع
+        <span class="sp"></span>
+        <button class="btn btn-ok btn-sm" onclick="addProject()"><i class="fas fa-plus"></i> إضافة مشروع</button>
+      </div>
+      <div id="projList"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-feat">
+    <div class="card">
+      <div class="ct"><i class="fas fa-star"></i> بانر المميزات</div>
+      <label>عنوان البانر:</label>
+      <input type="text" id="f-feat-btitle">
+      <label>نص البانر (يقبل HTML):</label>
+      <textarea id="f-feat-btext" style="min-height:80px"></textarea>
+      <label>صورة المميزات:</label>
+      <input type="url" id="f-feat-img" dir="ltr" oninput="document.getElementById('pv-feat').src=this.value">
+      <img id="pv-feat" class="prev">
+    </div>
+    <div class="card">
+      <div class="ct">
+        <i class="fas fa-list"></i> المميزات
+        <span class="sp"></span>
+        <button class="btn btn-ok btn-sm" onclick="addFeature()"><i class="fas fa-plus"></i> إضافة ميزة</button>
+      </div>
+      <div id="featList"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-about">
+    <div class="card">
+      <div class="ct">
+        <i class="fas fa-images"></i> معرض "نبذة عنا"
+        <span class="sp"></span>
+        <button class="btn btn-ok btn-sm" onclick="addAbout()"><i class="fas fa-plus"></i> إضافة صورة</button>
+      </div>
+      <div id="aboutList"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-tools">
+    <div class="card">
+      <div class="ct"><i class="fas fa-tools"></i> أدوات</div>
+      <a href="index.html" target="_blank" class="btn btn-o"><i class="fas fa-eye"></i> معاينة الموقع</a>
+      <a href="https://github.com/arceta-ye/-arceta/upload/main" target="_blank" class="btn btn-o"><i class="fas fa-cloud-upload-alt"></i> رفع صور جديدة</a>
+      <button class="btn btn-o" onclick="reloadDoc()"><i class="fas fa-sync"></i> إعادة تحميل من GitHub</button>
+      <button class="btn btn-d" onclick="logout()"><i class="fas fa-sign-out-alt"></i> حذف التوكن</button>
+    </div>
+    <div class="card">
+      <div class="ct"><i class="fas fa-info-circle"></i> ما تملك التحكم فيه</div>
+      <div class="info">
+        ✅ <b>المنتجات:</b> تعديل + إضافة + حذف<br>
+        ✅ <b>المشاريع:</b> تعديل + إضافة + حذف<br>
+        ✅ <b>المميزات:</b> تعديل + إضافة + حذف<br>
+        ✅ <b>معرض نبذة:</b> تعديل + إضافة + حذف<br>
+        ✅ <b>كل النصوص والصور والروابط</b><br>
+        ⚠️ <b>الأقسام الرئيسية (4) والفئات (5):</b> تعديل فقط
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bar" id="saveBar" style="display:none">
+  <button class="btn btn-ok" id="saveBtn" onclick="saveAll()"><i class="fas fa-cloud-upload-alt"></i> حفظ ونشر كل التعديلات</button>
+</div>
+<div class="bar" style="position:static;background:transparent;box-shadow:none;padding:0"><div class="status" id="st-save" style="width:100%"></div></div>
+
+<div class="modal-bg" id="editModal">
+  <div class="modal-b">
+    <h3 id="em-title"></h3>
+    <div id="em-fields"></div>
+    <div class="actions-row">
+      <button class="btn btn-ok" onclick="applyEdit()"><i class="fas fa-check"></i> حفظ</button>
+      <button class="btn btn-o" onclick="closeEdit()"><i class="fas fa-times"></i> إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════ الإعدادات ═══════════════════
+const LS = {token:'arceta_tok',repo:'arceta_repo',branch:'arceta_branch',file:'arceta_file'};
+const $=id=>document.getElementById(id);
+const val=id=>($(id)&&$(id).value)||'';
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const b64Decode=s=>decodeURIComponent(atob(s.replace(/\s/g,'')).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+const b64Encode=s=>btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g,(m,p)=>String.fromCharCode('0x'+p)));
+let _uid=0;const uid=()=>'x'+(++_uid)+'_'+Date.now();
+
+function toast(msg,type='ok'){const e=$('st-save');e.className='status show '+type;e.innerHTML=msg;setTimeout(()=>e.className='status',4500);}
+function st(id,type,msg){const e=$('st-'+id);if(!e)return;e.className='status show '+type;e.innerHTML=msg;}
+
+// ═══════════════════ الحالة ═══════════════════
+let _doc=null,_sha=null,_origHtml='';
+let _state={
+  site:{brand:'',tagline:''},
+  hero:{img:'',title:'',sub:'',desc:''},
+  contact:{wa:'',phone:'',fb:'',ig:'',map:''},
+  portals:[],       // 4 عناصر
+  categories:[],    // 5 عناصر
+  products:[],      // قابلة للإضافة/الحذف
+  projects:[],      // قابلة للإضافة/الحذف
+  features:[],      // قابلة للإضافة/الحذف
+  featBanner:{title:'',text:'',img:''},
+  aboutGallery:[]   // قابلة للإضافة/الحذف
+};
+
+// ═══════════════════ GitHub ═══════════════════
+function cfg(){return{token:localStorage.getItem(LS.token)||'',repo:localStorage.getItem(LS.repo)||'arceta-ye/-arceta',branch:localStorage.getItem(LS.branch)||'main',file:localStorage.getItem(LS.file)||'index.html'};}
+function apiUrl(){const c=cfg();return `https://api.github.com/repos/${c.repo}/contents/${c.file}`;}
+
+async function getFile(){
+  const c=cfg();
+  const url=apiUrl()+'?ref='+c.branch+'&t='+Date.now();
+  const r=await fetch(url,{headers:{Authorization:'token '+c.token,Accept:'application/vnd.github.v3+json'}});
+  if(!r.ok){if(r.status===401)throw new Error('التوكن غير صالح');if(r.status===404)throw new Error('المستودع أو الملف غير موجود');throw new Error('HTTP '+r.status);}
+  const j=await r.json();
+  return {content:b64Decode(j.content),sha:j.sha};
+}
+
+async function putFile(html,msg){
+  const c=cfg();
+  const r=await fetch(apiUrl(),{method:'PUT',headers:{Authorization:'token '+c.token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:msg||'تحديث',content:b64Encode(html),sha:_sha,branch:c.branch})});
+  if(!r.ok){const e=await r.json().catch(()=>({}));if(r.status===409)throw new Error('الملف تغيّر من مكان آخر — اضغط "إعادة تحميل" في الأدوات');throw new Error(e.message||'HTTP '+r.status);}
+  return r.json();
+}
+
+// ═══════════════════ تحميل/حفظ ═══════════════════
+function saveSettings(){
+  const t=val('i-token').trim();
+  if(!t.startsWith('ghp_')&&!t.startsWith('github_pat_'))return st('setup','err','❌ التوكن يبدأ بـ ghp_ أو github_pat_');
+  localStorage.setItem(LS.token,t);
+  localStorage.setItem(LS.repo,val('i-repo').trim());
+  localStorage.setItem(LS.branch,val('i-branch').trim());
+  localStorage.setItem(LS.file,val('i-file').trim());
+  st('setup','load','⏳ جاري التحميل...');
+  loadDoc().then(()=>{st('setup','ok','✅ تم');setTimeout(()=>{$('setup').style.display='none';$('tabsNav').style.display='flex';$('saveBar').style.display='flex';},700);}).catch(e=>st('setup','err','❌ '+e.message));
+}
+
+async function loadDoc(){
+  const {content,sha}=await getFile();
+  _sha=sha;_origHtml=content;
+  _doc=new DOMParser().parseFromString(content,'text/html');
+  parseAll();renderAll();
+}
+
+async function reloadDoc(){
+  if(!confirm('إعادة تحميل من GitHub؟ أي تعديلات غير محفوظة ستضيع.'))return;
+  toast('⏳...','load');
+  try{await loadDoc();toast('✅ تم التحميل');}catch(e){toast('❌ '+e.message,'err');}
+}
+
+// ═══════════════════ استخراج البيانات ═══════════════════
+function parseOnclick(el){
+  if(!el)return null;
+  const oc=el.getAttribute('onclick')||'';
+  const m=oc.match(/openProductDetail\(\s*'([\s\S]*?)'\s*,\s*'([\s\S]*?)'\s*,\s*'([\s\S]*?)'\s*,\s*'([\s\S]*?)'\s*\)/);
+  if(!m)return null;
+  const un=s=>s.replace(/\\'/g,"'").replace(/\\\\/g,'\\').replace(/\\n/g,'\n');
+  return{title:un(m[1]),img:un(m[2]),desc:un(m[3]),wa:un(m[4])};
+}
+function buildOnclick(p){
+  const e=s=>String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r?\n/g,'\\n');
+  return `openProductDetail('${e(p.title)}', '${e(p.img)}', '${e(p.desc)}', '${e(p.wa)}')`;
+}
+
+function parseAll(){
+  // موقع
+  _state.site.brand=_doc.querySelector('.logo-container h1')?.textContent||'';
+  _state.site.tagline=_doc.querySelector('.logo-container p')?.textContent||'';
+
+  // ترحيب
+  const hero=_doc.querySelector('.hero');
+  _state.hero.img=hero?.querySelector('.welcome-avatar')?.getAttribute('src')||'';
+  _state.hero.title=hero?.querySelector('h2')?.textContent||'';
+  _state.hero.sub=hero?.querySelector('h3')?.textContent||'';
+  _state.hero.desc=hero?.querySelector(':scope > p')?.textContent||'';
+
+  // تواصل
+  _state.contact.wa=_origHtml.match(/wa\.me\/(\d+)/)?.[1]||'';
+  _state.contact.phone=_origHtml.match(/tel:(\d+)/)?.[1]||'';
+  _state.contact.fb=_origHtml.match(/https:\/\/www\.facebook\.com\/[^"]+/)?.[0]||'';
+  _state.contact.ig=_origHtml.match(/https:\/\/www\.instagram\.com\/[^" ]+/)?.[0]||'';
+  _state.contact.map=_origHtml.match(/https:\/\/maps\.app\.goo\.gl\/[^"]+/)?.[0]||'';
+
+  // الأقسام
+  _state.portals=Array.from(_doc.querySelectorAll('#mainSectionsGrid .portal-card')).map((c,i)=>({
+    i,title:c.querySelector('h3')?.textContent||'',desc:c.querySelector('p')?.textContent||'',img:c.querySelector('img')?.getAttribute('src')||''
+  }));
+
+  // الفئات
+  const cb=_doc.querySelector('#modal_portal2 .products-grid-2x2');
+  _state.categories=Array.from(cb?.children||[]).filter(c=>c.classList.contains('portal-card')).map((c,i)=>({
+    i,title:c.querySelector('h3')?.textContent||'',desc:c.querySelector('p')?.textContent||'',img:c.querySelector('img')?.getAttribute('src')||''
+  }));
+
+  // المنتجات
+  _state.products=[];
+  _doc.querySelectorAll('.menu-screen-modal[id^="modal_sub_"]').forEach(sec=>{
+    const secName=sec.querySelector('.modal-header h2')?.textContent?.trim()||sec.id;
+    sec.querySelectorAll('.product-card').forEach((card,idx)=>{
+      const p=parseOnclick(card.querySelector('.details-toggle-btn'));if(!p)return;
+      _state.products.push({id:uid(),sectionId:sec.id,sectionName:secName,cardTitle:card.querySelector('.product-card-title')?.textContent?.trim()||'',...p});
+    });
+  });
+
+  // مشاريع
+  _state.projects=Array.from(_doc.querySelectorAll('#modal_portal3 .sections-grid .portal-card')).map(c=>({
+    id:uid(),title:c.querySelector('h3')?.textContent||'',desc:c.querySelector('p')?.textContent||'',img:c.querySelector('img')?.getAttribute('src')||''
+  }));
+
+  // مميزات
+  const fm=_doc.getElementById('modal_portal4');
+  _state.featBanner.title=fm?.querySelector('.feature-banner-box h3')?.textContent||'';
+  _state.featBanner.text=fm?.querySelector('.feature-banner-box p')?.innerHTML||'';
+  _state.featBanner.img=fm?.querySelector('.image-card-item img')?.getAttribute('src')||'';
+  _state.features=Array.from(fm?.querySelectorAll('.sections-grid .portal-card')||[]).map(c=>({
+    id:uid(),icon:c.querySelector('.feature-icon-box i')?.className||'',title:c.querySelector('h3')?.textContent||'',desc:c.querySelector('p')?.textContent||''
+  }));
+
+  // معرض
+  _state.aboutGallery=Array.from(_doc.querySelectorAll('#modal_portal1 .vertical-images-container .image-card-item img')).map(im=>({
+    id:uid(),src:im.getAttribute('src')||''
+  }));
+}
+
+// ═══════════════════ رندر النماذج ═══════════════════
+function renderAll(){
+  $('f-brand').value=_state.site.brand;
+  $('f-tagline').value=_state.site.tagline;
+
+  $('f-hero-img').value=_state.hero.img;$('pv-hero').src=_state.hero.img;
+  $('f-hero-title').value=_state.hero.title;
+  $('f-hero-sub').value=_state.hero.sub;
+  $('f-hero-desc').value=_state.hero.desc;
+
+  $('f-wa').value=_state.contact.wa;
+  $('f-phone').value=_state.contact.phone;
+  $('f-fb').value=_state.contact.fb;
+  $('f-ig').value=_state.contact.ig;
+  $('f-map').value=_state.contact.map;
+
+  $('portalsList').innerHTML=_state.portals.map(p=>`
+    <div class="item">
+      <div class="item-t">🃏 ${esc(p.title)}</div>
+      <label>العنوان:</label><input type="text" id="f-pT-${p.i}" value="${esc(p.title)}">
+      <label>الوصف:</label><input type="text" id="f-pD-${p.i}" value="${esc(p.desc)}">
+      <label>الصورة:</label><input type="url" id="f-pI-${p.i}" dir="ltr" value="${esc(p.img)}">
+    </div>`).join('');
+
+  $('catsList').innerHTML=_state.categories.map(c=>`
+    <div class="item">
+      <div class="item-t">📂 ${esc(c.title)}</div>
+      <label>العنوان:</label><input type="text" id="f-cT-${c.i}" value="${esc(c.title)}">
+      <label>الوصف:</label><input type="text" id="f-cD-${c.i}" value="${esc(c.desc)}">
+      <label>الصورة:</label><input type="url" id="f-cI-${c.i}" dir="ltr" value="${esc(c.img)}">
+    </div>`).join('');
+
+  const secs=[...new Set(_state.products.map(p=>p.sectionId))];
+  $('prodSection').innerHTML=secs.map(id=>`<option value="${esc(id)}">${esc(_state.products.find(p=>p.sectionId===id).sectionName)}</option>`).join('');
+  $('prodSection').onchange=renderProducts;
+  renderProducts();
+
+  renderProjects();
+  renderFeatures();
+  renderAbout();
+
+  $('f-feat-btitle').value=_state.featBanner.title;
+  $('f-feat-btext').value=_state.featBanner.text;
+  $('f-feat-img').value=_state.featBanner.img;
+  $('pv-feat').src=_state.featBanner.img;
+}
+
+function renderProducts(){
+  const sid=$('prodSection').value;
+  const list=_state.products.filter(p=>p.sectionId===sid);
+  $('prodList').innerHTML=list.map(p=>`
+    <div class="item">
+      <div class="item-h">
+        <div class="item-t">📦 ${esc(p.cardTitle||p.title)}</div>
+        <div class="item-actions">
+          <button class="btn btn-o btn-sm" onclick="editProduct('${p.id}')">تعديل</button>
+          <button class="btn btn-d btn-sm" onclick="deleteProduct('${p.id}')">حذف</button>
+        </div>
+      </div>
+    </div>`).join('')||'<p style="text-align:center;color:#999">لا منتجات</p>';
+}
+
+function renderProjects(){
+  $('projList').innerHTML=_state.projects.map(p=>`
+    <div class="item">
+      <div class="item-h">
+        <div class="item-t">🏗️ ${esc(p.title)}</div>
+        <div class="item-actions">
+          <button class="btn btn-o btn-sm" onclick="editProject('${p.id}')">تعديل</button>
+          <button class="btn btn-d btn-sm" onclick="deleteProject('${p.id}')">حذف</button>
+        </div>
+      </div>
+    </div>`).join('')||'<p style="text-align:center;color:#999">لا مشاريع</p>';
+}
+
+function renderFeatures(){
+  $('featList').innerHTML=_state.features.map(f=>`
+    <div class="item">
+      <div class="item-h">
+        <div class="item-t">⭐ ${esc(f.title)}</div>
+        <div class="item-actions">
+          <button class="btn btn-o btn-sm" onclick="editFeature('${f.id}')">تعديل</button>
+          <button class="btn btn-d btn-sm" onclick="deleteFeature('${f.id}')">حذف</button>
+        </div>
+      </div>
+    </div>`).join('')||'<p style="text-align:center;color:#999">لا مميزات</p>';
+}
+
+function renderAbout(){
+  $('aboutList').innerHTML=_state.aboutGallery.map((a,i)=>`
+    <div class="item">
+      <div class="item-h">
+        <div class="item-t">📸 صورة ${i+1}</div>
+        <div class="item-actions">
+          <button class="btn btn-o btn-sm" onclick="editAbout('${a.id}')">تعديل</button>
+          <button class="btn btn-d btn-sm" onclick="deleteAbout('${a.id}')">حذف</button>
+        </div>
+      </div>
+      <img src="${esc(a.src)}" style="width:100%;max-height:60px;object-fit:cover;border-radius:5px;margin-top:4px" onerror="this.style.display='none'">
+    </div>`).join('')||'<p style="text-align:center;color:#999">لا صور</p>';
+}
+
+// ═══════════════════ Modal تعديل ═══════════════════
+let _edit={type:null,id:null};
+
+function openEdit(type,id,fields,title){
+  _edit={type,id};
+  $('em-title').innerText=title;
+  $('em-fields').innerHTML=fields;
+  $('editModal').classList.add('show');
+}
+function closeEdit(){$('editModal').classList.remove('show');_edit={type:null,id:null};}
+
+function editProduct(id){
+  const p=_state.products.find(x=>x.id===id);if(!p)return;
+  openEdit('product',id,`
+    <label>عنوان البطاقة:</label><input type="text" id="em-cardTitle" value="${esc(p.cardTitle)}">
+    <label>عنوان التفاصيل:</label><input type="text" id="em-title-in" value="${esc(p.title)}">
+    <label>رابط الصورة:</label><input type="url" id="em-img" dir="ltr" value="${esc(p.img)}" oninput="document.getElementById('em-prev').src=this.value">
+    <img id="em-prev" class="prev" src="${esc(p.img)}">
+    <label>الوصف (HTML):</label><textarea id="em-desc" style="min-height:110px">${esc(p.desc)}</textarea>
+    <label>نص زر الواتساب:</label><input type="text" id="em-wa" value="${esc(p.wa)}">
+  `,'✏️ تعديل منتج');
+}
+
+function editProject(id){
+  const p=_state.projects.find(x=>x.id===id);if(!p)return;
+  openEdit('project',id,`
+    <label>العنوان:</label><input type="text" id="em-title-in" value="${esc(p.title)}">
+    <label>الوصف:</label><input type="text" id="em-desc" value="${esc(p.desc)}">
+    <label>رابط الصورة:</label><input type="url" id="em-img" dir="ltr" value="${esc(p.img)}" oninput="document.getElementById('em-prev').src=this.value">
+    <img id="em-prev" class="prev" src="${esc(p.img)}">
+  `,'✏️ تعديل مشروع');
+}
+
+function editFeature(id){
+  const f=_state.features.find(x=>x.id===id);if(!f)return;
+  const icons=['fas fa-tags','fas fa-medal','fas fa-shield-alt','fas fa-hand-holding-dollar','fas fa-star','fas fa-award','fas fa-gem','fas fa-thumbs-up','fas fa-fire','fas fa-bolt','fas fa-crown','fas fa-check-circle'];
+  openEdit('feature',id,`
+    <label>الأيقونة:</label>
+    <input type="text" id="em-icon" dir="ltr" value="${esc(f.icon)}">
+    <div class="icon-grid">
+      ${icons.map(ic=>`<div class="icon-opt ${ic===f.icon?'sel':''}" data-ic="${ic}" onclick="pickIcon(this)"><i class="${ic}"></i></div>`).join('')}
+    </div>
+    <label>العنوان:</label><input type="text" id="em-title-in" value="${esc(f.title)}">
+    <label>الوصف:</label><textarea id="em-desc">${esc(f.desc)}</textarea>
+  `,'✏️ تعديل ميزة');
+}
+
+function editAbout(id){
+  const a=_state.aboutGallery.find(x=>x.id===id);if(!a)return;
+  openEdit('about',id,`
+    <label>رابط الصورة:</label><input type="url" id="em-img" dir="ltr" value="${esc(a.src)}">
+    <img id="em-prev" class="prev" src="${esc(a.src)}">
+  `,'📸 تعديل صورة المعرض');
+}
+
+function pickIcon(el){
+  document.querySelectorAll('.icon-opt').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  $('em-icon').value=el.dataset.ic;
+}
+
+function applyEdit(){
+  const {type,id}=_edit;
+  if(type==='product'){
+    const p=_state.products.find(x=>x.id===id);
+    p.cardTitle=val('em-cardTitle').trim();
+    p.title=val('em-title-in').trim();
+    p.img=val('em-img').trim();
+    p.desc=val('em-desc').trim();
+    p.wa=val('em-wa').trim();
+    renderProducts();
+  } else if(type==='project'){
+    const p=_state.projects.find(x=>x.id===id);
+    p.title=val('em-title-in').trim();
+    p.desc=val('em-desc').trim();
+    p.img=val('em-img').trim();
+    renderProjects();
+  } else if(type==='feature'){
+    const f=_state.features.find(x=>x.id===id);
+    f.icon=val('em-icon').trim();
+    f.title=val('em-title-in').trim();
+    f.desc=val('em-desc').trim();
+    renderFeatures();
+  } else if(type==='about'){
+    const a=_state.aboutGallery.find(x=>x.id===id);
+    a.src=val('em-img').trim();
+    renderAbout();
+  }
+  closeEdit();
+  toast('✅ تم التعديل — اضغط "حفظ ونشر" لرفعه','load');
+}
+
+// ═══════════════════ إضافة/حذف ═══════════════════
+function addProduct(){
+  const sid=$('prodSection').value;
+  if(!sid)return alert('لا يوجد قسم');
+  const name=_state.products.find(p=>p.sectionId===sid)?.sectionName||sid;
+  const newP={id:uid(),sectionId:sid,sectionName:name,cardTitle:'منتج جديد',title:'منتج جديد',img:'',desc:'',wa:'منتج جديد'};
+  _state.products.push(newP);
+  renderProducts();
+  editProduct(newP.id);
+}
+
+function deleteProduct(id){
+  if(!confirm('حذف هذا المنتج نهائياً؟'))return;
+  _state.products=_state.products.filter(p=>p.id!==id);
+  renderProducts();
+  toast('🗑️ تم الحذف — اضغط "حفظ ونشر"','load');
+}
+
+function addProject(){
+  const p={id:uid(),title:'مشروع جديد',desc:'',img:''};
+  _state.projects.push(p);
+  renderProjects();
+  editProject(p.id);
+}
+function deleteProject(id){
+  if(!confirm('حذف المشروع؟'))return;
+  _state.projects=_state.projects.filter(x=>x.id!==id);
+  renderProjects();
+  toast('🗑️ تم الحذف','load');
+}
+
+function addFeature(){
+  const f={id:uid(),icon:'fas fa-star',title:'ميزة جديدة',desc:''};
+  _state.features.push(f);
+  renderFeatures();
+  editFeature(f.id);
+}
+function deleteFeature(id){
+  if(!confirm('حذف الميزة؟'))return;
+  _state.features=_state.features.filter(x=>x.id!==id);
+  renderFeatures();
+  toast('🗑️ تم الحذف','load');
+}
+
+function addAbout(){
+  const a={id:uid(),src:''};
+  _state.aboutGallery.push(a);
+  renderAbout();
+  editAbout(a.id);
+}
+function deleteAbout(id){
+  if(!confirm('حذف الصورة؟'))return;
+  _state.aboutGallery=_state.aboutGallery.filter(x=>x.id!==id);
+  renderAbout();
+  toast('🗑️ تم الحذف','load');
+}
+
+// ═══════════════════ بناء HTML للحفظ ═══════════════════
+function buildProductCard(p){
+  return `<div class="product-card">
+    <div class="product-card-img-container"><img src="${esc(p.img)}" alt="${esc(p.cardTitle)}"></div>
+    <div class="product-card-title">${esc(p.cardTitle||p.title)}</div>
+    <button class="details-toggle-btn" onclick="${esc(buildOnclick(p))}"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+  </div>`;
+}
+function buildProjectCard(p){
+  const wa=_state.contact.wa||'';
+  const text=encodeURIComponent('استفسار عن '+p.title);
+  return `<div class="portal-card card-3d-dark">
+    <div class="portal-img-container"><img src="${esc(p.img)}" class="portal-img"></div>
+    <h3>${esc(p.title)}</h3>
+    <p>${esc(p.desc)}</p>
+    <a href="https://wa.me/${esc(wa)}?text=${text}" target="_blank" class="order-btn" style="width:90%;font-size:0.85rem;margin:0.8rem auto;"><i class="fa-brands fa-whatsapp"></i> استشارة</a>
+  </div>`;
+}
+function buildFeatureCard(f){
+  return `<div class="portal-card card-3d-dark" style="cursor: default; padding: 1.2rem;">
+    <div class="feature-icon-box"><i class="${esc(f.icon)}"></i></div>
+    <h3>${esc(f.title)}</h3>
+    <p>${esc(f.desc)}</p>
+  </div>`;
+}
+
+function applyAll(){
+  // نصوص بسيطة
+  const h1=_doc.querySelector('.logo-container h1');if(h1)h1.textContent=val('f-brand');
+  const tp=_doc.querySelector('.logo-container p');if(tp)tp.textContent=val('f-tagline');
+
+  const hero=_doc.querySelector('.hero');
+  if(hero){
+    const av=hero.querySelector('.welcome-avatar');if(av)av.setAttribute('src',val('f-hero-img'));
+    const h2=hero.querySelector('h2');if(h2)h2.textContent=val('f-hero-title');
+    const h3=hero.querySelector('h3');if(h3)h3.textContent=val('f-hero-sub');
+    const pp=hero.querySelector(':scope > p');if(pp)pp.textContent=val('f-hero-desc');
+  }
+
+  // الأقسام
+  const pcards=_doc.querySelectorAll('#mainSectionsGrid .portal-card');
+  _state.portals.forEach((p,i)=>{
+    const c=pcards[i];if(!c)return;
+    const h3=c.querySelector('h3');if(h3)h3.textContent=val('f-pT-'+i);
+    const pp=c.querySelector('p');if(pp)pp.textContent=val('f-pD-'+i);
+    const im=c.querySelector('img');if(im)im.setAttribute('src',val('f-pI-'+i));
+  });
+
+  // الفئات
+  const cb=_doc.querySelector('#modal_portal2 .products-grid-2x2');
+  const cats=cb?Array.from(cb.children).filter(c=>c.classList.contains('portal-card')):[];
+  _state.categories.forEach((c,i)=>{
+    const el=cats[i];if(!el)return;
+    const h3=el.querySelector('h3');if(h3)h3.textContent=val('f-cT-'+i);
+    const pp=el.querySelector('p');if(pp)pp.textContent=val('f-cD-'+i);
+    const im=el.querySelector('img');if(im)im.setAttribute('src',val('f-cI-'+i));
+  });
+
+  // المنتجات — إعادة بناء كاملة لكل قسم
+  const secs=[...new Set(_state.products.map(p=>p.sectionId))];
+  secs.forEach(sid=>{
+    const sec=_doc.getElementById(sid);if(!sec)return;
+    const grid=sec.querySelector('.products-grid-2x2');if(!grid)return;
+    const prods=_state.products.filter(p=>p.sectionId===sid);
+    grid.innerHTML=prods.map(buildProductCard).join('');
+  });
+
+  // المشاريع
+  const pm=_doc.getElementById('modal_portal3');
+  if(pm){
+    const grid=pm.querySelector('.sections-grid');
+    if(grid)grid.innerHTML=_state.projects.map(buildProjectCard).join('');
+  }
+
+  // المميزات
+  const fm=_doc.getElementById('modal_portal4');
+  if(fm){
+    const bt=fm.querySelector('.feature-banner-box h3');if(bt)bt.textContent=val('f-feat-btitle');
+    const bp=fm.querySelector('.feature-banner-box p');if(bp)bp.innerHTML=val('f-feat-btext');
+    const fi=fm.querySelector('.image-card-item img');if(fi)fi.setAttribute('src',val('f-feat-img'));
+    const fg=fm.querySelector('.sections-grid');
+    if(fg)fg.innerHTML=_state.features.map(buildFeatureCard).join('');
+  }
+
+  // معرض نبذة
+  const am=_doc.getElementById('modal_portal1');
+  if(am){
+    const gallery=am.querySelector('.vertical-images-container');
+    if(gallery)gallery.innerHTML=_state.aboutGallery.filter(a=>a.src).map(a=>`<div class="image-card-item"><img src="${esc(a.src)}"></div>`).join('');
+  }
+}
+
+function applyContact(html){
+  const oldWA=html.match(/wa\.me\/(\d+)/)?.[1]||'';
+  const oldPhone=html.match(/tel:(\d+)/)?.[1]||'';
+  const oldFb=html.match(/https:\/\/www\.facebook\.com\/[^"]+/)?.[0]||'';
+  const oldIg=html.match(/https:\/\/www\.instagram\.com\/[^" ]+/)?.[0]||'';
+  const oldMap=html.match(/https:\/\/maps\.app\.goo\.gl\/[^"]+/)?.[0]||'';
+  const newWA=val('f-wa').trim();
+  const newPhone=val('f-phone').trim();
+  const newFb=val('f-fb').trim();
+  const newIg=val('f-ig').trim();
+  const newMap=val('f-map').trim();
+  const M1='\u0001WAX\u0001',M2='\u0001PHX\u0001';
+  if(oldWA)html=html.split(oldWA).join(M1);
+  if(oldPhone)html=html.split(oldPhone).join(M2);
+  if(oldFb&&newFb)html=html.split(oldFb).join(newFb);
+  if(oldIg&&newIg)html=html.split(oldIg).join(newIg);
+  if(oldMap&&newMap)html=html.split(oldMap).join(newMap);
+  html=html.split(M1).join(newWA||oldWA);
+  html=html.split(M2).join(newPhone||oldPhone);
+  return html;
+}
+
+async function saveAll(){
+  const btn=$('saveBtn');btn.disabled=true;
+  toast('⏳ جاري الحفظ في GitHub...','load');
+  try{
+    applyAll();
+    let html='<!DOCTYPE html>\n'+_doc.documentElement.outerHTML;
+    html=applyContact(html);
+    if(html===_origHtml){toast('ℹ️ لا تغييرات للحفظ');btn.disabled=false;return;}
+    const res=await putFile(html,'تحديث من لوحة الإدارة — '+new Date().toLocaleString('ar'));
+    _sha=res.content.sha;_origHtml=html;
+    toast('✅ تم النشر! انتظر ~60 ثانية');
+  }catch(e){toast('❌ '+e.message,'err');}
+  btn.disabled=false;
+}
+
+// ═══════════════════ التبويبات ═══════════════════
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    $('p-'+t.dataset.t).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+function logout(){
+  if(!confirm('حذف التوكن؟'))return;
+  Object.values(LS).forEach(k=>localStorage.removeItem(k));
+  location.reload();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const c=cfg();
+  $('i-repo').value=c.repo;$('i-branch').value=c.branch;$('i-file').value=c.file;
+  if(c.token){
+    $('i-token').value=c.token;
+    loadDoc().then(()=>{
+      $('setup').style.display='none';$('tabsNav').style.display='flex';$('saveBar').style.display='flex';
+    }).catch(()=>{});
+  }
+});
+</script>
+</body>
+</html>

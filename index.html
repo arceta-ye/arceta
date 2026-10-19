@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>ارسيتا ARCETA | تحالف مقاولات وهندسة وتجارة مستلزمات البنية التحتية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700;800&family=Almarai:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1b4998;
+            --secondary-color: #0e2a5e;
+            --light-bg: #f4f7fc;
+            --white: #ffffff;
+            --dark-text: #222222;
+            --accent-color: #ffb703;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif; transition: background-color 0.3s, color 0.3s, transform 0.3s ease, box-shadow 0.3s ease; }
+        body { background-color: var(--light-bg); color: var(--dark-text); line-height: 1.6; overflow-x: hidden; touch-action: pan-x pan-y; }
+        body.modal-open { overflow: hidden; }
+
+        header { background-color: var(--primary-color); color: var(--white); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 100; }
+        .logo-container h1 { font-size: 1.3rem; font-weight: 800; }
+        .logo-container p { font-size: 0.7rem; opacity: 0.9; }
+        
+        .header-actions { display: flex; align-items: center; gap: 10px; position: relative; z-index: 9999; }
+        .menu-dots-btn { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid white; width: 38px; height: 38px; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; z-index: 10000; }
+        .menu-dots-btn:hover { background: white; color: var(--primary-color); }
+
+        .dropdown-menu { position: absolute; top: 48px; left: 0; background: white; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); width: 190px; display: none; flex-direction: column; overflow: hidden; z-index: 10001; border: 1px solid #ddd; }
+        .dropdown-menu.active { display: flex; }
+        .dropdown-item { padding: 12px 14px; color: var(--dark-text); text-decoration: none; font-size: 0.9rem; font-weight: bold; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; cursor: pointer; background: white; border: none; text-align: right; width: 100%; font-family: 'Cairo'; }
+        .dropdown-item:hover { background: var(--light-bg); color: var(--primary-color); }
+
+        .hero { background-image: linear-gradient(rgba(27, 73, 152, 0.65), rgba(14, 42, 94, 0.75)), url('https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?q=80&w=1000'); background-size: cover; background-position: center; color: var(--white); text-align: center; padding: 3.5rem 1rem; }
+        
+        .welcome-avatar { width: 100%; max-width: 650px; height: auto; aspect-ratio: 16 / 9; border-radius: 16px; object-fit: cover; border: 4px solid var(--white); box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-bottom: 1.5rem; display: block; margin-left: auto; margin-right: auto; touch-action: manipulation; }
+        
+        .hero h2 { font-size: 1.8rem; margin-bottom: 0.3rem; font-weight: 800; text-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+        .hero h3 { font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 700; opacity: 0.95; }
+        .hero p { font-size: 0.95rem; opacity: 0.9; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+        .container { max-width: 900px; margin: 1.5rem auto; padding: 0 1rem; }
+        
+        .sections-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; width: 100%; max-width: 850px; margin: 0 auto; }
+        @media (max-width: 576px) { .sections-grid { grid-template-columns: 1fr; } }
+
+        .products-grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem; width: 100%; max-width: 850px; margin: 0 auto; }
+
+        .portal-card { background: var(--white); border-radius: 16px; text-align: center; padding-bottom: 1.2rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; cursor: pointer; }
+        .portal-card:hover { transform: translateY(-5px); box-shadow: 0 20px 45px rgba(0,0,0,0.25); }
+        
+        .card-3d-dark { border: 3px solid #111111; background: #ffffff; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35); }
+
+        .portal-img-container { position: relative; width: 92%; margin: 0.8rem auto 0; padding-bottom: 56%; overflow: hidden; border-radius: 12px; background: #eee; }
+        .portal-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; touch-action: manipulation; }
+        
+        .portal-card h3 { color: var(--secondary-color); font-size: 1.15rem; margin: 0.8rem 0 0.3rem; padding: 0 0.5rem; font-weight: 800; }
+        .portal-card p { color: #555; font-size: 0.85rem; padding: 0 0.6rem; font-weight: 600; }
+
+        .feature-icon-box { width: 65px; height: 65px; border-radius: 50%; background: var(--light-bg); color: var(--primary-color); border: 2px solid var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0.8rem auto 0.5rem; box-shadow: 0 4px 10px rgba(27, 73, 152, 0.15); }
+        .feature-banner-box { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 1.5rem; border-radius: 16px; border: 3px solid #111; box-shadow: 0 12px 25px rgba(0,0,0,0.2); text-align: center; margin-bottom: 1.5rem; }
+        .feature-banner-box h3 { color: var(--accent-color); font-size: 1.3rem; font-weight: 900; margin-bottom: 0.6rem; }
+        .feature-banner-box p { font-size: 1rem; line-height: 1.8; font-weight: 700; }
+
+        .vertical-images-container { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 700px; margin: 0 auto; }
+        .image-card-item { background: var(--white); border-radius: 14px; padding: 0.8rem; border: 2px solid #222; box-shadow: 0 8px 20px rgba(0,0,0,0.15); text-align: center; overflow: hidden; }
+        .image-card-item img { width: 100%; height: auto; display: block; border-radius: 10px; touch-action: manipulation; }
+
+        .product-card { background: var(--white); border-radius: 14px; padding: 0.8rem; display: flex; flex-direction: column; justify-content: space-between; border: 2px solid #222; box-shadow: 0 8px 20px rgba(0,0,0,0.15); text-align: right; }
+        .product-card-img-container { width: 100%; border-radius: 10px; overflow: hidden; margin-bottom: 0.6rem; background: #f8f9fa; border: 1px solid #ddd; aspect-ratio: 4 / 3; }
+        .product-card-img-container img { width: 100%; height: 100%; display: block; object-fit: cover; touch-action: manipulation; }
+        .product-card-title { font-size: 0.95rem; font-weight: 800; color: var(--secondary-color); margin-bottom: 0.5rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 4px; min-height: 42px; line-height: 1.3; }
+        
+        .details-toggle-btn { background: var(--light-bg); color: var(--primary-color); border: 1px solid var(--primary-color); padding: 0.5rem; border-radius: 8px; font-size: 0.85rem; font-weight: bold; cursor: pointer; text-align: center; margin-bottom: 0.6rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .details-toggle-btn:hover { background: var(--primary-color); color: white; }
+
+        .social-footer { background: var(--white); border-radius: 16px; border: 3px solid #111111; box-shadow: 0 15px 35px rgba(0,0,0,0.35); display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 2.5rem; padding: 1.8rem 1rem; flex-wrap: wrap; }
+        .social-footer-title { width: 100%; text-align: center; font-size: 1.2rem; color: var(--secondary-color); font-weight: 800; margin-bottom: 0.5rem; }
+        .social-item-box { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; cursor: pointer; }
+        .social-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.4rem; box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+        .social-item-label { font-size: 0.8rem; font-weight: bold; color: var(--secondary-color); }
+        
+        .social-icon.whatsapp { background: #25D366; }
+        .social-icon.facebook { background: #1877F2; }
+        .social-icon.instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .social-icon.phone { background: #0d6efd; }
+        .social-icon.location { background: #dc3545; }
+        .social-icon.share { background: #6f42c1; }
+
+        .menu-screen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(244, 247, 252, 0.99); z-index: 3000; display: none; flex-direction: column; overflow-y: auto; }
+        .menu-screen-modal.active { display: flex; }
+        .modal-header { background-color: var(--primary-color); color: white; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .back-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .modal-content { flex-grow: 1; padding: 1.5rem 1rem; max-width: 900px; margin: 0 auto; width: 100%; }
+
+        .single-product-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.98); z-index: 4000; display: none; flex-direction: column; overflow-y: auto; }
+        .single-product-modal.active { display: flex; }
+        .single-product-box { max-width: 600px; margin: 2rem auto; background: white; padding: 1.5rem; border-radius: 16px; border: 3px solid #111; box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 92%; display: flex; flex-direction: column; gap: 1rem; text-align: right; }
+        
+        .single-product-img { width: 100%; height: auto; max-height: 70vh; object-fit: contain; border-radius: 12px; border: 1px solid #ddd; background: #f8f9fa; }
+        
+        .single-product-title { font-size: 1.2rem; font-weight: 900; color: var(--secondary-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 6px; }
+        .single-product-desc { font-size: 0.95rem; color: #333; line-height: 1.7; background: #f4f7fc; padding: 12px; border-radius: 10px; border: 1px solid #e0e6ed; }
+
+        .order-btn { background-color: #25D366; color: white; border: none; padding: 0.7rem; border-radius: 8px; font-size: 0.9rem; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 10px rgba(37,211,102,0.2); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(4px); }
+        .modal { background: var(--white); padding: 1.5rem; border-radius: 16px; width: 90%; max-width: 420px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
+        .btn-submit { border: none; padding: 0.6rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: bold; color: white; font-size: 0.95rem; background-color: #28a745; width: 100%; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <h1>ارسيتا ARCETA</h1>
+            <p>تحالف مقاولات وهندسة وتجارة مستلزمات البنية التحتية</p>
+        </div>
+        <div class="header-actions">
+            <div style="position: relative;">
+                <button class="menu-dots-btn" id="mainMenuBtn" onclick="toggleMenuBox(event)"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="dropdown-menu" id="dropdownBox">
+                    <button class="dropdown-item" onclick="triggerNativeShare()"><i class="fas fa-share-alt" style="color: #6f42c1;"></i> مشاركة الموقع</button>
+                    <button class="dropdown-item" onclick="openInfoModal('developer')"><i class="fas fa-code" style="color: #6f42c1;"></i> المطور</button>
+                    <button class="dropdown-item" onclick="openInfoModal('support')"><i class="fas fa-headset" style="color: #28a745;"></i> الدعم الفني</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <img src="https://i.postimg.cc/C1gwBX9h/1790525444208.jpg" alt="ترحيب" class="welcome-avatar">
+        <h2>أهلاً بكم في تحالف ارسيتا ARCETA</h2>
+        <h3>حلول متكاملة لمشاريع البنية التحتية</h3>
+        <p>اختر أحد الأقسام أدناه لاستعراض المنتجات والخدمات.</p>
+    </section>
+
+    <main class="container">
+        <div class="sections-grid" id="mainSectionsGrid">
+            <div class="portal-card card-3d-dark" onclick="openMenuModal('portal1')">
+                <div class="portal-img-container"><img src="https://i.postimg.cc/q7nk74Dh/1790525690248.jpg" class="portal-img" alt="نبذة عنا"></div>
+                <h3>نبذة عنا</h3>
+                <p>تعريف تحالف ارسيتا ARCETA والرؤية الهندسية.</p>
+            </div>
+
+            <div class="portal-card card-3d-dark" onclick="openMenuModal('portal2')">
+                <div class="portal-img-container"><img src="https://i.postimg.cc/HkLgZcrg/IMG-20261015-WA0007.jpg" class="portal-img" alt="المنتجات والمواصفات"></div>
+                <h3>المنتجات والمواصفات</h3>
+                <p>اللمبات، الأدوات، الصرف الصحي، المنظومات، والأمان.</p>
+            </div>
+
+            <div class="portal-card card-3d-dark" onclick="openMenuModal('portal3')">
+                <div class="portal-img-container"><img src="https://i.postimg.cc/6pQXj28K/IMG-20261015-WA0008.jpg" class="portal-img" alt="مشاريعنا والخدمات"></div>
+                <h3>مشاريعنا والخدمات</h3>
+                <p>أبرز المشاريع التنموية والخدمات المنفذة.</p>
+            </div>
+
+            <div class="portal-card card-3d-dark" onclick="openMenuModal('portal4')">
+                <div class="portal-img-container"><img src="https://i.postimg.cc/D0fNGFqC/1792006621941.jpg" class="portal-img" alt="المميزات"></div>
+                <h3>المميزات</h3>
+                <p>صناعة ممتازة وأصلية بأقل الأسعار المنافسة في السوق.</p>
+            </div>
+        </div>
+
+        <div class="social-footer">
+            <div class="social-footer-title">تواصل معنا مباشر عبر</div>
+            <a href="https://wa.me/967784445562" target="_blank" class="social-item-box">
+                <div class="social-icon whatsapp"><i class="fa-brands fa-whatsapp"></i></div>
+                <span class="social-item-label">واتساب</span>
+            </a>
+            <a href="https://www.facebook.com/share/19sYu8g6Uv/" target="_blank" class="social-item-box">
+                <div class="social-icon facebook"><i class="fa-brands fa-facebook-f"></i></div>
+                <span class="social-item-label">فيسبوك</span>
+            </a>
+            <a href="https://www.instagram.com/20.arceta.20?dlrf=MWd0YmJmNTl1NHc4YQ==" target="_blank" class="social-item-box">
+                <div class="social-icon instagram"><i class="fa-brands fa-instagram"></i></div>
+                <span class="social-item-label">إنستغرام</span>
+            </a>
+            <a href="tel:784445562" class="social-item-box">
+                <div class="social-icon phone"><i class="fa-solid fa-phone"></i></div>
+                <span class="social-item-label">اتصال</span>
+            </a>
+            <a href="https://maps.app.goo.gl/QeQKFSn7bB6WHDRp6" target="_blank" class="social-item-box">
+                <div class="social-icon location"><i class="fa-solid fa-location-dot"></i></div>
+                <span class="social-item-label">الخريطة</span>
+            </a>
+        </div>
+    </main>
+
+    <div id="dynamicMenuModals">
+        <div class="menu-screen-modal" id="modal_portal1">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeMenuModal('modal_portal1')"><i class="fas fa-arrow-right"></i> رجوع</button>
+                <h2>نبذة عنا والتعريف</h2>
+            </div>
+            <div class="modal-content">
+                <div class="vertical-images-container">
+                    <div class="image-card-item"><img src="https://i.postimg.cc/TYsGvMKC/IMG-20260927-WA0000.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/5Nr1WdXR/IMG-20260927-WA0011.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/X7P36Srt/IMG-20260927-WA0009.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/nhQxHRmk/IMG-20260927-WA0003.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/GmsRc7D6/IMG-20260927-WA0010.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/Bv90tTcS/IMG-20260927-WA0006.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/cJyS6RMC/IMG-20260927-WA0007.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/tgQj73tz/IMG-20260927-WA0008.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/3wXHGknm/IMG-20260927-WA0004.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/d02KCh4j/IMG-20260927-WA0005.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/YS6wFvbs/IMG-20260927-WA0002.jpg"></div>
+                    <div class="image-card-item"><img src="https://i.postimg.cc/N06wXKdv/1790540894216.jpg"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-screen-modal" id="modal_portal2">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeMenuModal('modal_portal2')"><i class="fas fa-arrow-right"></i> رجوع</button>
+                <h2>قسم المنتجات والمواصفات</h2>
+            </div>
+            <div class="modal-content">
+                <p style="text-align: center; font-weight: bold; margin-bottom: 1.5rem; color: var(--secondary-color);">اختر القسم المطلوب:</p>
+                <div class="products-grid-2x2">
+                    <div class="portal-card card-3d-dark" onclick="openSubModal('sub_lamps')">
+                        <div class="portal-img-container"><img src="https://i.postimg.cc/m2yGFRtj/1792134841430.jpg" class="portal-img"></div>
+                        <h3>قسم اللمبات</h3>
+                        <p>تشكيلة اللمبات وإضاءات المشاريع.</p>
+                    </div>
+                    <div class="portal-card card-3d-dark" onclick="openSubModal('sub_tools')">
+                        <div class="portal-img-container"><img src="https://i.postimg.cc/P5fnWcwc/1792135468281.jpg" class="portal-img"></div>
+                        <h3>قسم الأدوات</h3>
+                        <p>العدد والأدوات الاحترافية.</p>
+                    </div>
+                    <div class="portal-card card-3d-dark" onclick="openSubModal('sub_sanitary')">
+                        <div class="portal-img-container"><img src="https://i.postimg.cc/9fK3jQNY/1792134699714.jpg" class="portal-img"></div>
+                        <h3>قسم الصرف الصحي</h3>
+                        <p>وصلات البرتقالي، درجات المناهل، صمامات عدم الرجوع، وأغطية الدكتايل.</p>
+                    </div>
+                    <div class="portal-card card-3d-dark" onclick="openSubModal('sub_systems')">
+                        <div class="portal-img-container"><img src="https://i.postimg.cc/L84Ft71x/1792135562761.jpg" class="portal-img"></div>
+                        <h3>قسم المنظومات</h3>
+                        <p>الطاقة الشمسية وانفرترات المضخات وصناديق التجميع.</p>
+                    </div>
+                    <div class="portal-card card-3d-dark" onclick="openSubModal('sub_safety')">
+                        <div class="portal-img-container"><img src="https://i.postimg.cc/VL8865sV/1792135657532.jpg" class="portal-img"></div>
+                        <h3>قسم الأمان</h3>
+                        <p>الأقفال الذكية، طفايات الحريق، الخوذ، الفيست، السيفتي وشنط الأدوات.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الأدوات -->
+        <div class="menu-screen-modal" id="modal_sub_tools">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeSubModal('modal_sub_tools')"><i class="fas fa-arrow-right"></i> رجوع للأقسام</button>
+                <h2>قسم الأدوات</h2>
+            </div>
+            <div class="modal-content">
+                <div class="products-grid-2x2">
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/wxnBnVtQ/IMG-20261006-WA9966.jpg" alt="مشرط قابل للطي"></div>
+                        <div class="product-card-title">مشرط جيب قابل للطي (ART:200125)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('مشرط جيب قابل للطي (ART:200125)', 'https://i.postimg.cc/wxnBnVtQ/IMG-20261006-WA9966.jpg', 'مشرط جيب معدني قابل للطي مع شفرات قابلة للتبديل، يساعدك في تقشير الأسلاك وفتح الكراتين وقص البلاستيك والموكيت بسهولة. ينطوي بالكامل داخل المقبض لوضعه في الجيب بأمان، وتأتي معه شفرات إضافية، ومقبضه المريح يسهل حمله طوال اليوم.<br><br>مشرط جيب عملي وقابل للطي مع شفرات إضافية، مثالي للفنيين والاستخدام المنزلي. اطلبه الآن!', 'مشرط قابل للطي ART:200125')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/T3zqwmHn/IMG-20261006-WA9214.jpg" alt="جهاز قياس حرارة ليزر"></div>
+                        <div class="product-card-title">جهاز قياس الحرارة عن بُعد بالليزر</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('جهاز قياس الحرارة عن بُعد (ART:380501)', 'https://i.postimg.cc/T3zqwmHn/IMG-20261006-WA9214.jpg', 'جهاز ترمومتر ليزر لقياس الحرارة عن بُعد دون لمس، يتيح لك معرفة حرارة المحركات ولوحات الكهرباء والتكييف والأفران بأمان. يعرض القراءة فوراً على شاشة مضيئة تناسب العمل في الأماكن المعتمة، ويستخدم بيد واحدة بدقة عالية.<br><br>جهاز قياس حرارة ليزر دقيق وآمن، مثالي للفنيين والمهندسين. اطلبه الآن!', 'جهاز قياس حرارة ليزر ART:380501')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/4ykrQmdr/IMG-20261006-WA9172.jpg" alt="كباسة أطراف أسلاك"></div>
+                        <div class="product-card-title">كباسة أطراف أسلاك كبس رباعي (170mm)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('كباسة أطراف أسلاك كبس رباعي (ART:110164)', 'https://i.postimg.cc/4ykrQmdr/IMG-20261006-WA9172.jpg', 'كباسة أطراف أسلاك بنظام الكبس الرباعي بطول 170 مم، تستخدم لتثبيت الكلبسات وأطراف الأسلاك الكهربائية من 4 جهات لضمان عدم انفلات السلك داخل الطبلون. حجمها المدمج يسهل استخدامها داخل اللوحات الكهربائية الضيقة، وتمنحك تثبيتاً قوياً يطيل عمر التوصيلات.<br><br>كباسة أطراف احترافية بكبس رباعي قوي وحجم مدمج. اطلبها الآن!', 'كباسة أطراف أسلاك ART:110164')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/nVNLNksB/IMG-20261006-WA8504.jpg" alt="طقم زراديات"></div>
+                        <div class="product-card-title">طقم زراديات متنوعة (6 و 8 إنش)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم زراديات متنوعة للكهرباء والصيانة', 'https://i.postimg.cc/nVNLNksB/IMG-20261006-WA8504.jpg', 'طقم زراديات يشمل زرادية عادية وقاطعة أسلاك وبوز طويل بمقاس 6 و8 إنش، لتلبية كافة أعمال الربط والقص والتثبيت في الكهرباء والصيانة. مقابض معزولة تحمي يدك من الصعق الكهربائي أثناء العمل في التمديدات المنزلية والصناعية، والطقم يغنيك عن شراء كل أداة على حدة.<br><br>طقم زراديات متكامل بمقابض معزولة للكهرباء والصيانة. اطلبه الآن!', 'طقم زراديات 6 و 8 إنش')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/YCdBBrXZ/IMG-20261006-WA7999.jpg" alt="طقم مفاتيح توركس"></div>
+                        <div class="product-card-title">طقم مفاتيح نجمة توركس (9 قطع T10-T50)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم مفاتيح نجمة توركس 9 قطع (ART:170509)', 'https://i.postimg.cc/YCdBBrXZ/IMG-20261006-WA7999.jpg', 'طقم مفاتيح نجمة توركس 9 قطع بمقاسات من T10 إلى T50، مخصص لفك وربط المسامير النجمية في السيارات والأجهزة والمعدات. تصميمه الطويل على شكل حرف L يساعدك للوصول إلى المسامير الغائرة والأماكن الضيقة، والطقم يغطي مقاسات واسعة في علبة منظمة.<br><br>طقم مفاتيح توركس 9 قطع بمقاسات متنوعة. اطلبه الآن!', 'طقم مفاتيح توركس 9 قطع')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/PrzkKz15/IMG-20261006-WA7263.jpg" alt="قاطع كيابل سقاطة"></div>
+                        <div class="product-card-title">مقص كيابل بنظام سقاطة للنحاس والألمنيوم</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('مقص كيابل بنظام سقاطة', 'https://i.postimg.cc/PrzkKz15/IMG-20261006-WA7263.jpg', 'مقص كيابل بنظام السقاطة لقص النحاس والألمنيوم، يمكّنك من قص الكيابل الكهربائية السميكة بيد واحدة وبدون مجهود بفضل التروس المتدرجة. يعطي قصاً مستقيماً ونظيفاً دون تشتيت الشعيرات النحاسية، وهو أداة أساسية لكل كهربائي.<br><br>مقص كيابل احترافي بنظام سقاطة، قص سهل ونظيف. اطلبه الآن!', 'مقص كيابل سقاطة')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/3ww7k44m/IMG-20261006-WA7241.jpg" alt="شريط قياس متر"></div>
+                        <div class="product-card-title">شريط قياس متري (5م / 7.5م / 10م)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('شريط قياس متري (5م / 7.5م / 10م)', 'https://i.postimg.cc/3ww7k44m/IMG-20261006-WA7241.jpg', 'شريط قياس متري بأطوال 5م أو 7.5م أو 10م، مناسب لأخذ المقاسات الهندسية والإنشائية والمنزلية بأرقام واضحة وسهلة القراءة. مزود بطرف مغناطيسي يثبت على الحديد ليمكّنك من القياس بمفردك، وجسم متين يتحمل الاستخدام اليومي.<br><br>شريط قياس متري عملي بأطوال متعددة وطرف مغناطيسي. اطلبه الآن!', 'شريط قياس متري')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/pVSvpLRV/IMG-20261006-WA7083.jpg" alt="طقم مفاتيح مشرشرة سقاطة"></div>
+                        <div class="product-card-title">طقم مفاتيح سقاطة (12 قطعة مقاس 8-24)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم مفاتيح سقاطة 12 قطعة (مقاس 8 إلى 24)', 'https://i.postimg.cc/pVSvpLRV/IMG-20261006-WA7083.jpg', 'طقم مفاتيح سقاطة 12 قطعة بمقاسات 8 إلى 24، يوفر عليك الوقت والجهد في فك وشد الصواميل في الأماكن الضيقة دون الحاجة لرفع المفتاح وإعادة تركيبه. يغطي 12 مقاساً أساسياً لأعمال الميكانيكا والسباكة، ويأتي مع حافظة قماشية قابلة للطي سهلة الحمل.<br><br>طقم مفاتيح سقاطة 12 قطعة يغطي المقاسات الأساسية. اطلبه الآن!', 'طقم مفاتيح سقاطة 12 قطعة')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/wvJrMgVD/IMG-20261006-WA6965.jpg" alt="منشار أركت كهربائي"></div>
+                        <div class="product-card-title">منشار أركت كهربائي للخشب والحديد</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('منشار أركت كهربائي (Jigsaw)', 'https://i.postimg.cc/wvJrMgVD/IMG-20261006-WA6965.jpg', 'منشار أركت كهربائي يساعدك في قص الألواح الخشبية والبلاستيك والصاج بخطوط مستقيمة أو منحنية. مناسب لأعمال النجارة والديكور المنزلي والورش، ويأتي مع قاعدة تثبيت متوازنة تضمن لك قصاً دقيقاً وآمناً.<br><br>منشار أركت كهربائي قوي لقص الخشب والمعادن. اطلبه الآن!', 'منشار أركت كهربائي')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/BZmTFRV2/IMG-20261006-WA6710.jpg" alt="منشار شحن لاسلكي 6 إنش"></div>
+                        <div class="product-card-title">منشار شحن لاسلكي 6 إنش لتقليم الأشجار</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('منشار شحن لاسلكي 6 إنش (ART:407406)', 'https://i.postimg.cc/BZmTFRV2/IMG-20261006-WA6710.jpg', 'منشار شحن لاسلكي 6 إنش يتيح لك تقليم أغصان الأشجار وتقطيع الأخشاب في المزرعة أو الحديقة بيد واحدة وبدون أسلاك. يأتي كاملاً مع بطاريتين قابلتين للشحن وشاحن وحقيبة حمل، ليعمل معك في أي مكان دون الحاجة لكهرباء.<br><br>منشار شحن لاسلكي 6 إنش مع بطاريتين وحقيبة. اطلبه الآن!', 'منشار شحن 6 إنش')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/sxT4DNtx/IMG-20261006-WA6874.jpg" alt="دريل شحن لاسلكي"></div>
+                        <div class="product-card-title">دريل شحن لاسلكي للفك والربط (ART:400216)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('دريل شحن لاسلكي (ART:400216)', 'https://i.postimg.cc/sxT4DNtx/IMG-20261006-WA6874.jpg', 'دريل شحن لاسلكي يسهّل عليك فك وربط البراغي وثقب الخشب والمعادن في أي مكان دون الحاجة لتوصيلة كهرباء. مزود بسرعتين للتحكم بالدوران، ويأتي مع بطاريتين وشاحن وحقيبة، ليمنحك حرية الحركة والاعتماد على نفسك في التركيبات.<br><br>دريل شحن لاسلكي متعدد الاستخدامات مع بطاريتين. اطلبه الآن!', 'دريل شحن ART:400216')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/RFcP9GST/IMG-20261006-WA6423.jpg" alt="دريل همر شحن"></div>
+                        <div class="product-card-title">دريل همر شحن لاسلكي للخرسانة (ART:401020)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('دريل همر شحن لاسلكي (ART:401020)', 'https://i.postimg.cc/RFcP9GST/IMG-20261006-WA6423.jpg', 'دريل همر شحن لاسلكي مخصص لثقب الجدران الخرسانية وتمديد المواسير والكيابل في المواقع التي لا تتوفر فيها كهرباء. يعمل بنظام الطرق والدوران، ومرفق ببطاريتين وريش حفر وحقيبة، ليكون رفيقك في مواقع العمل الصعبة.<br><br>دريل همر شحن لثقب الخرسانة مع بطاريتين وريش. اطلبه الآن!', 'دريل همر شحن ART:401020')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/85WYcNHN/IMG-20261006-WA4878.jpg" alt="مسدس لهب"></div>
+                        <div class="product-card-title">مسدس لهب غاز أوتوماتيك (ART:898920)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('مسدس لهب غاز أوتوماتيك (ART:898920)', 'https://i.postimg.cc/85WYcNHN/IMG-20261006-WA4878.jpg', 'مسدس لهب غاز أوتوماتيك يستخدم للحام مواسير النحاس في التكييف وتسخين القطع المعدنية وإشعال الفحم بسرعة. يشتعل بضغطة زر واحدة مع إمكانية التحكم في قوة وتركيز اللهب، مما يجعله أداة عملية لكل فني.<br><br>مسدس لهب غاز أوتوماتيك مثالي للحام والتسخين. اطلبه الآن!', 'مسدس لهب ART:898920')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/wxnBnVtN/IMG-20261006-WA4508.jpg" alt="طقم رؤوس مفكات"></div>
+                        <div class="product-card-title">طقم رؤوس مفكات للدريل (10 قطع ART:163180)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم رؤوس مفكات للدريل (10 قطع)', 'https://i.postimg.cc/wxnBnVtN/IMG-20261006-WA4508.jpg', 'طقم رؤوس مفكات للدريل 10 قطع، يركب على الدريل لفك وربط مختلف أنواع المسامير (مربع، عادي، ونجمة) بسرعة. يأتي في مشبك منظم يسهل تعليقه في الحزام أو حفظه في حقيبة العدة، ليكون جاهزاً معك في أي وقت.<br><br>طقم رؤوس مفكات للدريل 10 قطع منظم وعملي. اطلبه الآن!', 'طقم رؤوس مفكات 10 قطع')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/pLsMMWGy/IMG-20261006-WA3994.jpg" alt="طقم مفاتيح سداسي مطواة"></div>
+                        <div class="product-card-title">طقم مفاتيح سداسي مطواة (8 مقاسات)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم مفاتيح سداسي مطواة (ART:170606)', 'https://i.postimg.cc/pLsMMWGy/IMG-20261006-WA3994.jpg', 'طقم مفاتيح سداسي مطواة 8 مقاسات، يجمع لك 8 مفاتيح سداسية في قبضة واحدة تمنع ضياع المقاسات الصغيرة. عملي جداً لفك وتركيب الأثاث والدراجات والأجهزة المنزلية، وتصميمه المطواة يجعله سهل الحمل والاستخدام في أي مكان.<br><br>طقم مفاتيح سداسي مطواة 8 مقاسات عملي ومحمول. اطلبه الآن!', 'طقم مفاتيح سداسي مطواة')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/FKkWCNwT/IMG-20261006-WA3832.jpg" alt="قدمة ذات الورنية ديجيتال"></div>
+                        <div class="product-card-title">أداة قياس السمك والأقطار الرقمية (بوكليز)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('أداة قياس السمك والأقطار الرقمية (Digital Caliper)', 'https://i.postimg.cc/FKkWCNwT/IMG-20261006-WA3832.jpg', 'أداة قياس السمك والأقطار الرقمية تمكّنك من قياس سماكة المعادن والأقطار الداخلية والخارجية للمواسير والقطع بدقة تصل إلى 0.01 مم. تعرض المقاس مباشرة بالأرقام على الشاشة لتوفير الوقت وتجنب أخطاء القراءة اليدوية، وهي أداة أساسية لكل فني ومهندس.<br><br>بوكليز ديجيتال دقيق لقياس الأبعاد بشاشة رقمية. اطلبه الآن!', 'بوكليز ديجيتال أزرق')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/VNN1Jrrg/IMG-20261006-WA3521.jpg" alt="قشارة أسلاك أوتوماتيك"></div>
+                        <div class="product-card-title">قشارة أسلاك أوتوماتيك 3 في 1 (ART:110108)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('قشارة أسلاك أوتوماتيك 3 في 1 (ART:110108)', 'https://i.postimg.cc/VNN1Jrrg/IMG-20261006-WA3521.jpg', 'قشارة أسلاك أوتوماتيك 3 في 1 تغنيك عن استخدام 3 أدوات؛ فهي تقشر العازل تلقائياً دون قطع النحاس، وتقص السلك، وتكبس الكلبسات. تناسب جميع الأسلاك الكهربائية من مقاس 0.2 إلى 6 مم، وتوفر عليك الوقت والمال بأداة واحدة متعددة.<br><br>قشارة أسلاك 3 في 1 للتقشير والقص والكبس. اطلبها الآن!', 'قشارة أسلاك أوتوماتيك')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/Wz5wbHQh/IMG-20261006-WA3332.jpg" alt="فرجار قدمة ديجيتال"></div>
+                        <div class="product-card-title">مقياس رقمي للأبعاد والعمق (ستانلس ستيل)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('مقياس رقمي للأبعاد والعمق (Digital Caliper)', 'https://i.postimg.cc/Wz5wbHQh/IMG-20261006-WA3332.jpg', 'مقياس رقمي للأبعاد والعمق من ستانلس ستيل، يساعد الفنيين والمهندسين في معرفة مقاسات الصواميل والمواسير وعمق الثقوب بدقة رقمية فورية. يأتي مع علبة حفظ خاصة لحمايته أثناء التنقل، ويوفر عليك الوقت بدل القراءة اليدوية.<br><br>مقياس رقمي للأبعاد والعمق من ستانلس ستيل. اطلبه الآن!', 'مقياس رقمي ستانلس ستيل')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/ryNhPhZY/IMG-20261006-WA3184.jpg" alt="ميزان ليزر 16 خط"></div>
+                        <div class="product-card-title">ميزان ليزر أخضر 16 خط (360 درجة)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('ميزان ليزر 16 خط للبناء والتشطيبات', 'https://i.postimg.cc/ryNhPhZY/IMG-20261006-WA3184.jpg', 'ميزان ليزر أخضر 16 خط بزاوية 360 درجة، يضبط لك استقامة تركيب البلاط والجبس والأبواب وتمديدات الكهرباء والسباكة في الغرفة بالكامل. يوازن نفسه تلقائياً ويأتي مع بطاريتين قابلة للشحن وحامل جداري وحقيبة، مما يسهل عليك العمل بدقة واحترافية.<br><br>ميزان ليزر 16 خط للبناء والتشطيبات، دقيق وسهل. اطلبه الآن!', 'ميزان ليزر 16 خط')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/bvLc8zmd/IMG-20261006-WA2862.jpg" alt="طقم مفاتيح بلدي مشرشر"></div>
+                        <div class="product-card-title">طقم مفاتيح ربط (مفتوح ومشرشر)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم مفاتيح ربط (مفتوح ومشرشر)', 'https://i.postimg.cc/bvLc8zmd/IMG-20261006-WA2862.jpg', 'طقم مفاتيح ربط برأس مفتوح ومشرشر، كل مفتاح برأسين (مفتوح للربط السريع وحلقي مشرشر لفك الصواميل المشدودة بقوة). يضم تشكيلة مقاسات متدرجة تغطي احتياجات صيانة السيارات والسباكة والمنزل، ليكون طقماً شاملاً لأي فني.<br><br>طقم مفاتيح ربط متكامل مفتوح ومشرشر. اطلبه الآن!', 'طقم مفاتيح بلدي مشرشر')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/Vv8VbpGH/IMG-20261006-WA1608.jpg" alt="طقم كباسة أطراف مع شنطة"></div>
+                        <div class="product-card-title">حقيبة كباسة أسلاك مع تشكيلة أطراف ملونة</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('حقيبة كباسة أسلاك مع أطراف التوصيل', 'https://i.postimg.cc/Vv8VbpGH/IMG-20261006-WA1608.jpg', 'حقيبة كباسة أسلاك مع تشكيلة أطراف ملونة، توفر لك أداة الكبس والقص والتقشير مع علبة منظمة تحتوي على مئات النهايات النحاسية الملونة. تساعدك في ترتيب وتأمين نهايات الأسلاك داخل القواطع واللوحات الكهربائية، وكل ما تحتاجه في حقيبة واحدة.<br><br>حقيبة كباسة أسلاك شاملة مع أطراف ملونة. اطلبها الآن!', 'حقيبة كباسة أطراف شاملة')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/Vs0f9C7H/IMG-20261006-WA0897.jpg" alt="طقم رؤوس مفك PH2"></div>
+                        <div class="product-card-title">طقم رؤوس مفك مغناطيسية (5 قطع 65mm)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم رؤوس مفك مغناطيسية PH2 (ART:163106)', 'https://i.postimg.cc/Vs0f9C7H/IMG-20261006-WA0897.jpg', 'طقم رؤوس مفك مغناطيسية PH2 بطول 65 مم، أطرافها المغناطيسية تمسك المسمار بثبات لتمكّنك من الربط بيد واحدة حتى في الأماكن المرتفعة. الطول المناسب يساعدك للوصول للمسامير العميقة باستخدام الدريل الكهربائي، ويأتي بـ 5 قطع جاهزة.<br><br>طقم رؤوس مفك مغناطيسية PH2، 5 قطع. اطلبه الآن!', 'طقم رؤوس مفك PH2 65mm')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/7LLD5GG3/IMG-20261006-WA0535.jpg" alt="طقم مفكات عازل"></div>
+                        <div class="product-card-title">طقم مفكات كهرباء معزولة مع فاحص (6 قطع)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طقم مفكات كهرباء معزولة 1000V (6 قطع)', 'https://i.postimg.cc/7LLD5GG3/IMG-20261006-WA0535.jpg', 'طقم مفكات كهرباء معزولة 1000V مكوّن من 5 مفكات (مربع وعادي) معزولة حتى 1000 فولت لحمايتك أثناء صيانة الكهرباء، بالإضافة إلى قلم فاحص. رؤوسها ممغنطة تمنع سقوط البراغي الصغيرة داخل المفاتيح واللوحات، ليكون الطقم رفيقك الآمن في العمل.<br><br>طقم مفكات كهرباء معزولة 1000V مع فاحص. اطلبه الآن!', 'طقم مفكات عازل 6 قطع')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/fRp591kJ/IMG-20261006-WA0208.jpg" alt="دريل شحن لاسلكي 400220"></div>
+                        <div class="product-card-title">دريل شحن لاسلكي متعدد الاستخدام (ART:400220)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('دريل شحن لاسلكي (ART:400220)', 'https://i.postimg.cc/fRp591kJ/IMG-20261006-WA0208.jpg', 'دريل شحن لاسلكي متعدد الاستخدام مناسب لأعمال التركيبات المنزلية وفك وربط الأثاث وثقب الأخشاب والحديد بدون تقييد الأسلاك. يأتي في حقيبة متكاملة تضم بطاريتين ليثيوم وشاحن سريع، ليمنحك حرية الحركة والاعتماد على نفسك في كل المهام.<br><br>دريل شحن لاسلكي متعدد الاستخدامات مع بطاريتين. اطلبه الآن!', 'دريل شحن ART:400220')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الأمان والسلامة -->
+        <div class="menu-screen-modal" id="modal_sub_safety">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeSubModal('modal_sub_safety')"><i class="fas fa-arrow-right"></i> رجوع للأقسام</button>
+                <h2>قسم الأمان والسلامة</h2>
+            </div>
+            <div class="modal-content">
+                <div class="products-grid-2x2">
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/WbR251KS/IMG-20261006-WA1148.jpg" alt="قفل باب ذكي Smart Lock"></div>
+                        <div class="product-card-title">قفل باب ذكي بالبصمة والبطاقة والرقم السري</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('قفل باب ذكي (Smart Lock)', 'https://i.postimg.cc/WbR251KS/IMG-20261006-WA1148.jpg', 'قفل باب ذكي يغنيك عن حمل المفاتيح؛ حيث يفتح باب منزلك أو مكتبك ببصمة الإصبع أو الكارت أو الرقم السري. يركب على الأبواب الخشبية والحديدية والألمنيوم، ومزود بمدخل شحن طوارئ خارجي، ليمنحك أماناً وسهولة دخول لأفراد الأسرة.<br><br>قفل باب ذكي متعدد الوسائل، آمن وعملي. اطلبه الآن!', 'قفل باب ذكي Smart Lock')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/SxdkQ7sR/IMG-20261006-WA1564.jpg" alt="قفل بصمة ذكي CKK"></div>
+                        <div class="product-card-title">قفل تعليق ذكي يعمل بالبصمة (CKK)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('قفل تعليق ذكي بالبصمة (CKK)', 'https://i.postimg.cc/SxdkQ7sR/IMG-20261006-WA1564.jpg', 'قفل تعليق ذكي يعمل بالبصمة، مناسب لقفل المحلات والمستودعات والبوابات بدون مفاتيح، مع إمكانية تخزين حتى 10 بصمات لمستخدمين مختلفين. يُشحن عبر كابل USB وتدوم بطاريته لأشهر، ويأتي معه مفتاح طوارئ احتياطي، ليضمن لك دخولاً سهلاً وآمناً.<br><br>قفل تعليق ذكي بالبصمة، مناسب للمحلات. اطلبه الآن!', 'قفل بصمة CKK')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/KvXZ08VV/IMG-20261006-WA5826.jpg" alt="قفل باب ذكي OTO"></div>
+                        <div class="product-card-title">قفل باب ذكي متكامل مع الكالون (OTO)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('قفل باب ذكي مع كالون داخلي (OTO)', 'https://i.postimg.cc/KvXZ08VV/IMG-20261006-WA5826.jpg', 'قفل باب ذكي متكامل مع الكالون يتيح لك التحكم الكامل بدخول المنزل أو الشقة عبر البصمة أو الكارت أو رمز الدخول المؤقت للضيوف. يأتي شاملاً الكالون الداخلي وملحقات التركيب ليركب مباشرة على الأبواب الخشبية أو الحديدية، ليمنحك راحة البال.<br><br>قفل باب ذكي OTO مع كالون، تحكم كامل. اطلبه الآن!', 'قفل باب ذكي OTO')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/52LQsrnR/IMG-20261005-WA2945.jpg" alt="طفاية حريق HEBA"></div>
+                        <div class="product-card-title">طفاية حريق بودرة جافة (6 كجم)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('طفاية حريق بودرة جافة (6 كجم)', 'https://i.postimg.cc/52LQsrnR/IMG-20261005-WA2945.jpg', 'طفاية حريق بودرة جافة 6 كجم مخصصة لتأمين المنازل والمكاتب والمحلات التجارية والمركبات ضد حرائق الكهرباء والمواد الصلبة والسائلة. وزنها مناسب وسهل الحمل، مع ساعة قياس ضغط واضحة تتيح لك التأكد من جاهزيتها في أي وقت.<br><br>طفاية حريق 6 كجم مثالية للمنازل والمكاتب. اطلبها الآن!', 'طفاية حريق 6 كجم')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/9Q7Zv0Fq/IMG-20261006-WA6479.jpg" alt="خوذة سلامة بيضاء"></div>
+                        <div class="product-card-title">خوذة حماية الرأس للمواقع والمشاريع</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('خوذة سلامة بيضاء للمهندسين والفنيين', 'https://i.postimg.cc/9Q7Zv0Fq/IMG-20261006-WA6479.jpg', 'خوذة حماية للرأس تحمي من الأجسام المتساقطة والصدمات أثناء العمل في مواقع البناء والورش. مزودة بحزام داخلي قابل للتعديل ليناسب مقاس الرأس، مع فتحات تهوية لتقليل الحرارة، لتوفر لك أماناً وراحة طوال يوم العمل.<br><br>خوذة سلامة بيضاء للمهندسين والفنيين. اطلبها الآن!', 'خوذة سلامة بيضاء')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/ZqzpZmCG/IMG-20261006-WA8610.jpg" alt="فيست أدوات"></div>
+                        <div class="product-card-title">سترة (فيست) حمل الأدوات للفنيين</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('سترة حمل الأدوات للفنيين', 'https://i.postimg.cc/ZqzpZmCG/IMG-20261006-WA8610.jpg', 'سترة حمل أدوات للفنيين ترتديها أثناء العمل لتبقي المفكات والزراديات والمسامير في متناول يدك، خاصة عند الصعود على السلم. مصنوعة من قماش شبكي خفيف لا يسبب التعرق، وبمقاس قابل للتوسيع والتضييق، لتوفر لك راحة وأدوات جاهزة دائماً.<br><br>فيست أدوات عملي للفنيين، خفيف ومريح. اطلبه الآن!', 'فيست أدوات فنيين')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/SN8K4MCy/IMG-20261006-WA5639.jpg" alt="حذاء سيفتي"></div>
+                        <div class="product-card-title">حذاء سلامة (سيفتي) للعمل - مقاس 43</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('حذاء سلامة (سيفتي) - مقاس 43', 'https://i.postimg.cc/SN8K4MCy/IMG-20261006-WA5639.jpg', 'حذاء سلامة بمقدمة حديدية مقاس 43 يحمي القدمين في مواقع العمل، ونعله مقاوم للانزلاق واختراق المسامير. تصميمه خفيف ومهوّى يريح القدم أثناء الوقوف والمشي لساعات طويلة، ليجمع بين الحماية والراحة طوال يوم العمل.<br><br>حذاء سيفتي مقاس 43، حماية وراحة. اطلبه الآن!', 'حذاء سيفتي مقاس 43')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/KvVtqBFY/IMG-20261006-WA2403.jpg" alt="شنطة أدوات قماش"></div>
+                        <div class="product-card-title">حقيبة قماشية لحفظ وتنظيم الأدوات</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('حقيبة قماشية لحفظ وتنظيم الأدوات', 'https://i.postimg.cc/KvVtqBFY/IMG-20261006-WA2403.jpg', 'حقيبة قماشية لحفظ وتنظيم الأدوات، تجمع لك كافة أدواتك اليدوية والكهربائية في مكان واحد بفضل جيوبها الداخلية والخارجية المتعددة. تسهل عليك نقل عدتك كاملة إلى موقع العمل أو حفظها بترتيب في المنزل أو السيارة، وتصنع من قماش متين يتحمل الاستخدام.<br><br>حقيبة أدوات قماشية متينة وتنظيم ممتاز. اطلبها الآن!', 'شنطة أدوات قماش')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم المنظومات -->
+        <div class="menu-screen-modal" id="modal_sub_systems">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeSubModal('modal_sub_systems')"><i class="fas fa-arrow-right"></i> رجوع للأقسام</button>
+                <h2>قسم المنظومات</h2>
+            </div>
+            <div class="modal-content">
+                <div class="products-grid-2x2">
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/br4fM33C/IMG-20261006-WA0107.jpg" alt="صندوق تجميع طاقة شمسية"></div>
+                        <div class="product-card-title">صندوق تجميع وحماية ألواح الطاقة الشمسية</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('صندوق تجميع وحماية الطاقة الشمسية (Combiner Box)', 'https://i.postimg.cc/br4fM33C/IMG-20261006-WA0107.jpg', 'صندوق تجميع وحماية ألواح الطاقة الشمسية يربط خطوط الألواح ويحمي الانفرتر والأجهزة المنزلية من الصواعق والالتماس الكهربائي. مجهز بقواطع حماية وشاشة قراءة ومداخل جاهزة التركيب، ومقاوم للغبار والأمطار، ليمنحك نظاماً شمسياً آمناً ومستقراً.<br><br>صندوق تجميع طاقة شمسية بحماية متكاملة. اطلبه الآن!', 'صندوق تجميع Combiner Box')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/HWNmVkdH/IMG-20261006-WA0169.jpg" alt="انفرتر SINENG 50KW"></div>
+                        <div class="product-card-title">انفرتر طاقة شمسية للمشاريع (50 كيلو واط)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('انفرتر طاقة شمسية SINENG (50KW ثلاثي الطور)', 'https://i.postimg.cc/HWNmVkdH/IMG-20261006-WA0169.jpg', 'انفرتر طاقة شمسية 50 كيلو واط ثلاثي الطور مخصص لتشغيل المصانع والفنادق والمستشفيات والمزارع الكبيرة عبر الطاقة الشمسية لتخفيض استهلاك الوقود والكهرباء. يعمل بشاشة متابعة الإنتاج وحماية ضد العوامل الجوية، ليكون قلب نظامك الشمسي الكبير.<br><br>انفرتر SINENG 50KW للمشاريع الكبيرة. اطلبه الآن!', 'انفرتر SINENG 50KW')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/pLbtJc9T/IMG-20261006-WA1190.jpg" alt="انفرتر مضخات INTECH للمزارع"></div>
+                        <div class="product-card-title">انفرتر تشغيل مضخات المياه للمزارع (INTECH)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('انفرتر تشغيل مضخات المياه للمزارع (INTECH)', 'https://i.postimg.cc/pLbtJc9T/IMG-20261006-WA1190.jpg', 'انفرتر تشغيل مضخات المياه للمزارع يقوم بتشغيل مضخات الري السطحية والغاطسة مباشرة من الألواح الشمسية نهاراً، مع إمكانية ربطه بالكهرباء أو المولد. يوفر على المزارع تكاليف الديزل والصيانة اليومية، ومزود بحماية ضد الغبار والماء، ليعمل بكفاءة في الظروف الصعبة.<br><br>انفرتر INTECH لتشغيل مضخات المزارع شمسياً. اطلبه الآن!', 'انفرتر مضخات INTECH للمزارع')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/cJdyVKMm/IMG-20261006-WA4157.jpg" alt="انفرتر مضخات للآبار العميقة"></div>
+                        <div class="product-card-title">انفرتر تشغيل غطاسات الآبار العميقة (INTECH)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('انفرتر غطاسات الآبار الارتوازية العميقة (INTECH)', 'https://i.postimg.cc/cJdyVKMm/IMG-20261006-WA4157.jpg', 'انفرتر تشغيل غطاسات الآبار العميقة مخصص لاستخراج المياه من الآبار العميقة جداً بالاعتماد على الطاقة الشمسية دون الحاجة لمولدات الديزل. يحمي الغطاس من التشغيل الجاف وتذبذب التيار، ومجهز بمداخل توصيل سريعة، ليوفر عليك الوقود والصيانة.<br><br>انفرتر INTECH للآبار العميقة بكفاءة عالية. اطلبه الآن!', 'انفرتر مضخات INTECH للآبار')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/HWNmVkdY/IMG-20261006-WA5729.jpg" alt="انفرتر طاقة شمسية SINENG"></div>
+                        <div class="product-card-title">انفرتر طاقة شمسية للمنازل والمنشآت (SINENG)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('انفرتر طاقة شمسية منزلي وتجاري (SINENG)', 'https://i.postimg.cc/HWNmVkdY/IMG-20261006-WA5729.jpg', 'انفرتر طاقة شمسية للمنازل والمنشآت يحول طاقة الألواح الشمسية لتشغيل كافة الأجهزة المنزلية والمكيفات، ويدعم الربط مع البطاريات أو الشبكة. يتيح لك متابعة كمية الإنتاج والاستهلاك من جوالك عبر الواي فاي، ليمنحك تحكماً ذكياً في نظامك الشمسي.<br><br>انفرتر SINENG منزلي بتحكم ذكي. اطلبه الآن!', 'انفرتر SINENG الشمسي')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم اللمبات -->
+        <div class="menu-screen-modal" id="modal_sub_lamps">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeSubModal('modal_sub_lamps')"><i class="fas fa-arrow-right"></i> رجوع للأقسام</button>
+                <h2>قسم اللمبات</h2>
+            </div>
+            <div class="modal-content">
+                <div class="products-grid-2x2">
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/QN4bq949/IMG-20261010-WA2827.jpg" alt="لمبات 1"></div>
+                        <div class="product-card-title">لمبات إضاءة منزلية ومكتبية موفرة (1)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('لمبات إضاءة منزلية ومكتبية موفرة (1)', 'https://i.postimg.cc/QN4bq949/IMG-20261010-WA2827.jpg', 'لمبات إضاءة منزلية ومكتبية موفرة تمنحك إنارة واضحة ومريحة للعين في الغرف والصالات والمكاتب. استهلاكها المنخفض للكهرباء يناسب التشغيل على الطاقة الشمسية والبطاريات، وعمرها الطويل يجعلها خياراً اقتصادياً لكل منزل.<br><br>لمبات LED موفرة بإضاءة مريحة. اطلبها الآن!', 'لمبات وإضاءة 1')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/tJS2Z7fw/IMG-20261010-WA2866.jpg" alt="لمبات 2"></div>
+                        <div class="product-card-title">إضاءة محلات ومنشآت تجارية (2)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('إضاءة محلات ومنشآت تجارية (2)', 'https://i.postimg.cc/tJS2Z7fw/IMG-20261010-WA2866.jpg', 'إضاءة محلات ومنشآت تجارية توزع الضوء بشكل واسع ومتساوٍ لإبراز المعروضات في المحلات والمعارض والمستودعات. تعمل لساعات طويلة دون ارتفاع في الحرارة أو ضعف في شدة الإضاءة، لتبقي محلك مضاءً طوال اليوم.<br><br>إضاءة محلات تجارية بتوزيع ضوء ممتاز. اطلبها الآن!', 'لمبات وإضاءة 2')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/cJxXdVFg/IMG-20261010-WA7973.jpg" alt="لمبات 3"></div>
+                        <div class="product-card-title">إنارة مشاريع ومباني حديثة (3)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('إنارة مشاريع ومباني حديثة (3)', 'https://i.postimg.cc/cJxXdVFg/IMG-20261010-WA7973.jpg', 'إنارة مشاريع ومباني حديثة مصممة للتركيب في الأسقف والممرات للمباني السكنية والتجارية. سهلة التركيب وتوفر في استهلاك الطاقة الكهربائية، لتكون خياراً عملياً واقتصادياً للمشاريع الكبيرة.<br><br>إنارة مشاريع ومباني حديثة سهلة التركيب. اطلبها الآن!', 'لمبات وإضاءة 3')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/y6QPTgQM/IMG-20261010-WA8735.jpg" alt="لمبات 4"></div>
+                        <div class="product-card-title">وحدات إنارة داخلية وخارجية (4)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('وحدات إنارة داخلية وخارجية (4)', 'https://i.postimg.cc/y6QPTgQM/IMG-20261010-WA8735.jpg', 'وحدات إنارة داخلية وخارجية تناسب إنارة المداخل والأحواش والواجهات بإضاءة ساطعة وموفرة. تتحمل ظروف التشغيل اليومي المستمر وتقلبات التيار، لتضمن لك إضاءة مستقرة في كل الأوقات.<br><br>وحدات إنارة داخلية وخارجية ساطعة وموفرة. اطلبها الآن!', 'لمبات وإضاءة 4')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/Y2n3xGnX/IMG-20261010-WA8877.jpg" alt="لمبات 5"></div>
+                        <div class="product-card-title">تجهيزات ومستلزمات إنارة متكاملة (5)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('تجهيزات ومستلزمات إنارة متكاملة (5)', 'https://i.postimg.cc/Y2n3xGnX/IMG-20261010-WA8877.jpg', 'تجهيزات ومستلزمات إنارة متكاملة تلبي احتياجات التشطيبات الكهربائية للمنازل والفلل والمشاريع. متوفرة بمقاسات وقدرات متعددة لتناسب مساحة المكان المطلوب إضاءته، لتحصل على كل ما تحتاجه من مصدر واحد.<br><br>تجهيزات إنارة متكاملة لمختلف المساحات. اطلبها الآن!', 'لمبات وإضاءة 5')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الصرف الصحي -->
+        <div class="menu-screen-modal" id="modal_sub_sanitary">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeSubModal('modal_sub_sanitary')"><i class="fas fa-arrow-right"></i> رجوع للأقسام</button>
+                <h2>قسم الصرف الصحي</h2>
+            </div>
+            <div class="modal-content">
+                <div class="products-grid-2x2">
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/65xZ2kNJ/1791655779154.jpg" alt="وصلات مجاري PVC البرتقالي"></div>
+                        <div class="product-card-title">وصلات تمديد شبكات الصرف الصحي (PVC برتقالي)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('وصلات تمديد شبكات الصرف الصحي (PVC)', 'https://i.postimg.cc/65xZ2kNJ/1791655779154.jpg', 'وصلات تمديد شبكات الصرف الصحي PVC برتقالي (كوع، واي، تي، وجلبة بجميع المقاسات)، تستخدم لتوصيل مواسير الصرف للمنازل والمباني. تركب بنظام الكبس مع ربلة مانعة للتسرب لضمان عدم تهريب المياه أو الروائح تحت البلاط، وتتميز بمقاومة التآكل وطول العمر.<br><br>وصلات صرف صحي PVC برتقالي بجميع المقاسات. اطلبها الآن!', 'وصلات مجاري PVC البرتقالي')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <!-- درجة السلم: أصبحت صورتها qM9CXrX7 (بعد التبديل) -->
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/qM9CXrX7/IMG-20261006-WA1425.jpg" alt="درجة منهل Manhole Step"></div>
+                        <div class="product-card-title">درجة سلم للمناهل والخزانات الأرضية (PVC مقوى)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('درجة سلم للمناهل والخزانات (Manhole Step)', 'https://i.postimg.cc/qM9CXrX7/IMG-20261006-WA1425.jpg', 'درجة سلم للمناهل والخزانات الأرضية من PVC مقوى، تُثبت في جدران المناهل أو الخزانات لتمكين الفنيين من النزول والصعود بأمان أثناء الصيانة والتنظيف. قلبها الحديدي مغلف بالبلاستيك الخشن لمنع انزلاق القدم ومقاومة الصدأ والرطوبة.<br><br>درجة منهل PVC مقواة، آمنة ومقاومة للصدأ. اطلبها الآن!', 'درجة منهل Manhole Step PVC')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/NfyHHFXS/IMG-20261006-WA9001.jpg" alt="صمام عدم رجوع مجاري الأسود"></div>
+                        <div class="product-card-title">صمام منع رجوع مياه المجاري والحشرات (مع قفل)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('صمام منع رجوع المجاري (Backwater Valve)', 'https://i.postimg.cc/NfyHHFXS/IMG-20261006-WA9001.jpg', 'صمام منع رجوع مياه المجاري والحشرات مع قفل، يركب في المنهل الرئيسي للمنزل ليسمح بخروج مياه الصرف ويمنع رجوعها أو دخول الجرذان والحشرات للبيت عند انسداد الشبكة العامة. يعمل تلقائياً بدون كهرباء، ومزود بذراع قفل يدوي يمكنك إغلاقه عند السفر.<br><br>صمام منع رجوع المجاري، حماية أساسية لكل منزل. اطلبه الآن!', 'صمام عدم رجوع مجاري الأسود')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/BQd1c3cS/IMG-20261006-WA5487.jpg" alt="غطاء منهول حديد دكتايل D400"></div>
+                        <div class="product-card-title">غطاء منهل حديد دكتايل للشوارع (600mm - D400)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('غطاء منهل حديد دكتايل (مقاس 600mm - D400)', 'https://i.postimg.cc/BQd1c3cS/IMG-20261006-WA5487.jpg', 'غطاء منهل حديد دكتايل مقاس 600 مم بتصنيف D400، مخصص لتغطية غرف التفتيش والمناهل في الشوارع والمداخل التي تمر فوقها السيارات والشاحنات الثقيلة (يتحمل حتى 40 طن). سطحه البارز يمنع انزلاق الإطارات والمشاة، ليمنحك أماناً في الطرق.<br><br>غطاء منهول حديد دكتايل D400 للشوارع. اطلبه الآن!', 'غطاء منهول حديد دكتايل D400')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+
+                    <!-- صمام منع الرجوع بفتحة تفتيش: أصبحت صورته brr2LNBr (بعد التبديل) -->
+                    <div class="product-card">
+                        <div class="product-card-img-container"><img src="https://i.postimg.cc/brr2LNBr/IMG-20261006-WA3303.jpg" alt="صمام عدم رجوع بفتحة تفتيش"></div>
+                        <div class="product-card-title">صمام منع رجوع الصرف الصحي (بغطاء تفتيش علوي)</div>
+                        <button class="details-toggle-btn" onclick="openProductDetail('صمام منع رجوع الصرف مع فتحة تفتيش', 'https://i.postimg.cc/brr2LNBr/IMG-20261006-WA3303.jpg', 'صمام منع رجوع الصرف الصحي بغطاء تفتيش علوي، يحمي الأدوار الأرضية والأقبية والمطاعم المنخفضة عن مستوى الشارع من فيضان مياه المجاري أثناء الأمطار أو الانسدادات. يحتوي على غطاء علوي يسهل فتحه لتنظيف الصمام وفحصه دون فك المواسير، ليمنحك صيانة سهلة وحماية دائمة.<br><br>صمام منع رجوع الصرف مع فتحة تفتيش سهلة. اطلبه الآن!', 'صمام عدم رجوع بفتحة تفتيش')"><i class="fas fa-info-circle"></i> تفاصيل أكثر</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. مشاريعنا والخدمات -->
+        <div class="menu-screen-modal" id="modal_portal3">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeMenuModal('modal_portal3')"><i class="fas fa-arrow-right"></i> رجوع</button>
+                <h2>مشاريعنا والخدمات</h2>
+            </div>
+            <div class="modal-content">
+                <div class="sections-grid">
+                    <div class="portal-card card-3d-dark">
+                        <div class="portal-img-container"><img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=500" class="portal-img"></div>
+                        <h3>مشروع شبكة المياه</h3>
+                        <p>تمديد وتنفيذ شبكات المياه الرئيسية والتفرعية.</p>
+                        <a href="https://wa.me/967784445562?text=استفسار%20عن%20المشروع" target="_blank" class="order-btn" style="width: 90%; font-size: 0.85rem; margin: 0.8rem auto;"><i class="fa-brands fa-whatsapp"></i> استشارة</a>
+                    </div>
+                    <div class="portal-card card-3d-dark">
+                        <div class="portal-img-container"><img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?q=80&w=500" class="portal-img"></div>
+                        <h3>محطات الضخ</h3>
+                        <p>توريد وتركيب وتشغيل محطات الضخ العملاقة.</p>
+                        <a href="https://wa.me/967784445562?text=استفسار%20عن%20المشروع" target="_blank" class="order-btn" style="width: 90%; font-size: 0.85rem; margin: 0.8rem auto;"><i class="fa-brands fa-whatsapp"></i> استشارة</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. المميزات -->
+        <div class="menu-screen-modal" id="modal_portal4">
+            <div class="modal-header">
+                <button class="back-btn" onclick="closeMenuModal('modal_portal4')"><i class="fas fa-arrow-right"></i> رجوع</button>
+                <h2>لماذا تختار ارسيتا ARCETA؟</h2>
+            </div>
+            <div class="modal-content">
+                <div class="image-card-item" style="max-width: 650px; margin: 0 auto 1.5rem;">
+                    <img src="https://i.postimg.cc/D0fNGFqC/1792006621941.jpg" alt="مميزات ارسيتا">
+                </div>
+
+                <div class="feature-banner-box">
+                    <h3>المعادلة التي وفرناها لك: صناعة ممتازة + أقل الأسعار!</h3>
+                    <p>في السوق غالباً ما تجد خيارين: إما من يعطيك بضاعة رخيصة ولكن صناعتها رديئة تتلف بسرعة، أو من يعطيك صناعة ممتازة ولكنه يرفع عليك السعر ويغلي بشكل مبالغ فيه!<br>في <b>ارسيتا ARCETA</b> كسرنا هذه القاعدة، ووفرنا لك <b>الصناعة الممتازة والأصلية بأقل الأسعار</b> المنافسة.</p>
+                </div>
+
+                <div class="sections-grid">
+                    <div class="portal-card card-3d-dark" style="cursor: default; padding: 1.2rem;">
+                        <div class="feature-icon-box"><i class="fas fa-tags"></i></div>
+                        <h3>أقل الأسعار بدون استغلال</h3>
+                        <p>بينما يرفع غيرنا الأسعار بمجرد أن تكون البضاعة أصلية، نحن نلتزم بتوفير المنتجات الممتازة بسعر عادل ومخفض يوفر على الزبون والمقاول.</p>
+                    </div>
+
+                    <div class="portal-card card-3d-dark" style="cursor: default; padding: 1.2rem;">
+                        <div class="feature-icon-box"><i class="fas fa-medal"></i></div>
+                        <h3>لا نبيع الرخيص الرديء</h3>
+                        <p>البضاعة الرخيصة والرديئة في السوق تخسرك مرتين (وقت الشراء ووقت الخراب والصيانة)، لذلك لا نوفر إلا صناعة ممتازة تتحمل وتعيش معك.</p>
+                    </div>
+
+                    <div class="portal-card card-3d-dark" style="cursor: default; padding: 1.2rem;">
+                        <div class="feature-icon-box"><i class="fas fa-shield-alt"></i></div>
+                        <h3>ضمان حقيقي يريح بالك</h3>
+                        <p>لأننا واثقون من جودة وصناعة منتجاتنا، نقدم لك ضماناً فعلياً يحميك من أي عيوب مصنعية، لتشتري وأنت مطمئن تماماً.</p>
+                    </div>
+
+                    <div class="portal-card card-3d-dark" style="cursor: default; padding: 1.2rem;">
+                        <div class="feature-icon-box"><i class="fas fa-hand-holding-dollar"></i></div>
+                        <h3>توفير للأفراد وأصحاب المشاريع</h3>
+                        <p>سواء كنت تشتري لبيتك أو لمشروعك، ستحصل على أعلى جودة ومواصفات هندسية معتمدة بتكلفة أقل توفر ميزانيتك.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.8rem; text-align: center;">
+                    <a href="https://wa.me/967784445562?text=السلام%20عليكم،%20أرغب%20في%20الاستفسار%20عن%20المنتجات%20والأسعار" target="_blank" class="order-btn" style="max-width: 380px; margin: 0 auto; font-size: 1rem;"><i class="fa-brands fa-whatsapp"></i> اطلب الآن بأقل سعر وأعلى جودة: 784445562</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="single-product-modal" id="singleProductModal">
+        <div class="modal-header">
+            <button class="back-btn" onclick="closeProductDetail()"><i class="fas fa-arrow-right"></i> رجوع للقائمة</button>
+            <h2 id="singleHeaderTitle">تفاصيل المنتج</h2>
+        </div>
+        <div class="modal-content" style="display: flex; justify-content: center; align-items: flex-start;">
+            <div class="single-product-box">
+                <img id="singleModalImg" src="" class="single-product-img" alt="صورة المنتج">
+                <div id="singleModalTitle" class="single-product-title"></div>
+                <div id="singleModalDesc" class="single-product-desc"></div>
+                <a id="singleModalWhatsappBtn" href="#" target="_blank" class="order-btn"><i class="fa-brands fa-whatsapp"></i> طلب استفسار / المنتج</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal">
+            <h3 id="infoModalTitle">عنوان النافذة</h3>
+            <p id="infoModalText" style="font-size: 0.9rem; color: #555; margin-bottom: 1.2rem; line-height: 1.6;"></p>
+            <div id="infoModalActionBtn" style="margin-bottom: 1rem;"></div>
+            <button class="btn-submit" onclick="closeModal('infoModal')">إغلاق</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/panzoom/9.4.0/panzoom.min.js"></script>
+    <script>
+        function toggleMenuBox(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const box = document.getElementById('dropdownBox');
+            box.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const box = document.getElementById('dropdownBox');
+            const btn = document.getElementById('mainMenuBtn');
+            if (box && box.classList.contains('active')) {
+                if (!box.contains(e.target) && !btn.contains(e.target)) {
+                    box.classList.remove('active');
+                }
+            }
+        });
+
+        function triggerNativeShare() {
+            document.getElementById('dropdownBox').classList.remove('active');
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ارسيتا ARCETA',
+                    text: 'تحالف مقاولات وهندسة وتجارة مستلزمات البنية التحتية',
+                    url: window.location.href
+                }).catch((error) => console.log('تم إلغاء المشاركة'));
+            } else {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('تم نسخ رابط الموقع بنجاح!');
+                });
+            }
+        }
+
+        function openInfoModal(type) {
+            document.getElementById('dropdownBox').classList.remove('active');
+            const title = document.getElementById('infoModalTitle');
+            const text = document.getElementById('infoModalText');
+            const actionBtn = document.getElementById('infoModalActionBtn');
+            actionBtn.innerHTML = '';
+
+            if (type === 'developer') {
+                title.innerText = "المطور";
+                text.innerText = "تم تطوير وتصميم هذه المنصة الاحترافية لتحالف ارسيتا (ARCETA) لمقاولات وهندسة وتجارة مستلزمات البنية التحتية.";
+            } else if (type === 'support') {
+                title.innerText = "الدعم الفني";
+                text.innerText = "تحتاج إلى مساعدة أو استفسار فني؟ تواصل مع فريق الدعم الفني مباشرة عبر الواتساب:";
+                actionBtn.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <a href="https://wa.me/967784445562?text=السلام%20عليكم،%20أحتاج%20إلى%20دعم%20فني" target="_blank" class="order-btn" style="width:100%; justify-content:center; background:#25D366; color:white; padding: 0.6rem;"><i class="fa-brands fa-whatsapp"></i> واتساب: 784445562</a>
+                    </div>
+                `;
+            }
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function openMenuModal(portalId) {
+            const modal = document.getElementById('modal_' + portalId);
+            if (modal) { modal.classList.add('active'); document.body.classList.add('modal-open'); }
+        }
+
+        function closeMenuModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        function openSubModal(subId) {
+            const subModal = document.getElementById('modal_' + subId);
+            if (subModal) { 
+                subModal.classList.add('active'); 
+            }
+        }
+
+        function closeSubModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openProductDetail(title, imgSrc, descHtml, whatsappText) {
+            document.getElementById('singleModalImg').src = imgSrc;
+            document.getElementById('singleModalTitle').innerText = title;
+            document.getElementById('singleModalDesc').innerHTML = descHtml;
+            document.getElementById('singleModalWhatsappBtn').href = `https://wa.me/967784445562?text=طلب:%20${encodeURIComponent(whatsappText)}`;
+            
+            document.getElementById('singleProductModal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeProductDetail() {
+            document.getElementById('singleProductModal').classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const allImages = document.querySelectorAll("img");
+            allImages.forEach(img => {
+                panzoom(img, {
+                    maxScale: 5,
+                    minScale: 1,
+                    bounds: true,
+                    boundsPadding: 0.1,
+                    transformOrigin: { x: 0.5, y: 0.5 }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
